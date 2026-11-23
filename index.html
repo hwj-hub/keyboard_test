@@ -1,0 +1,2443 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" id="themeColor" content="#2f5bea">
+<title>키보드 테스트 · 채터링·동시 입력부터 마우스 더블클릭·모니터 불량화소·마이크까지 한 번에 (설치 없이)</title>
+<meta name="description" content="누른 키가 한글 자판 그림에 바로 표시되는 무료 키보드 테스트 사이트입니다. 한 번 눌렀는데 두 번 들어가는 채터링, 여러 키를 같이 누르면 씹히는 동시 입력(고스팅), 한/영·한자 키까지 확인하고, 마우스 더블클릭·휠 튐·옆 단추·폴링레이트·CPS, 모니터 불량화소·주사율, 휴대폰 터치, 스피커 좌우·마이크·웹캠까지 설치 없이 PC와 휴대폰에서 점검합니다. 점검 결과는 글이나 이미지로 남길 수 있습니다.">
+<meta property="og:title" content="키보드 테스트 · 채터링·마우스 더블클릭·모니터 불량화소까지 한 번에">
+<meta property="og:description" content="누른 키가 자판 그림에 바로 불이 들어오고, 채터링·동시 입력·마우스 더블클릭·불량화소·마이크를 설치 없이 점검합니다.">
+<meta property="og:type" content="website">
+<!-- 링크 미리보기 그림: 스크래퍼는 절대 주소만 읽으므로 배포 주소로 적는다. 그림은 make_thumbnail.py og 가 만든 og-image.png(1200×630) -->
+<meta property="og:image" content="https://hwj-hub.github.io/keyboard_test/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="키보드 테스트 — 누른 키가 초록으로 바뀌는 한글 자판 그림과 채터링 의심 키 표시 화면">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='88'%3E%E2%8C%A8%3C/text%3E%3C/svg%3E">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{
+  color-scheme:light dark;
+  --bg:#f2f4f9; --card:#fff; --card2:#f3f5fb; --fg:#131a2c; --muted:#5a6479; --line:#dde3ee;
+  --accent:#2f5bea; --accent2:#5d86ff; --afg:#fff;
+  --ok:#0b7f57; --okbg:#e2f4ec; --okcap:#c8ecd8; --okline:#6fc39b;
+  --warn:#b45309; --warnbg:#fdf2e3; --danger:#cf3128; --dangerbg:#fdebe9;
+  --cap:#fcfdff; --capb:#cdd4e3; --capsh:#b7c0d4;
+  --shadow:0 1px 2px rgba(19,26,44,.05),0 8px 24px -14px rgba(19,26,44,.32);
+  --r:16px;
+}
+@media (prefers-color-scheme:dark){
+ :root{
+  --bg:#0b0f17; --card:#141a26; --card2:#101521; --fg:#e7ecf7; --muted:#9ba6be; --line:#263046;
+  --accent:#7c9eff; --accent2:#a3bbff; --afg:#0b1430;
+  --ok:#34d399; --okbg:#0b2a21; --okcap:#123a2c; --okline:#2c7a5a;
+  --warn:#fbbf24; --warnbg:#2b2210; --danger:#ff7b72; --dangerbg:#3a1614;
+  --cap:#1b2232; --capb:#2d3850; --capsh:#070a11;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px -16px rgba(0,0,0,.85);
+ }
+}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--fg);line-height:1.55;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic","Apple SD Gothic Neo",Roboto,sans-serif;
+  word-break:keep-all;overflow-wrap:break-word;
+  -webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
+.wrap{max-width:1280px;margin:0 auto;padding:0 14px calc(40px + env(safe-area-inset-bottom))}
+button{font:inherit;color:inherit}
+.hide{display:none !important}
+.nw{white-space:nowrap}
+
+/* ── 앱 안(네이버·카카오 WebView) 안내 띠 ── 마이크·카메라·전체 화면이 막히는 경우가 많다 */
+.iabar{display:none;align-items:center;gap:10px;margin:10px 0 0;padding:11px 12px;border-radius:12px;
+  background:var(--warnbg);border:1px solid color-mix(in srgb,var(--warn) 34%,transparent);line-height:1.5}
+body.inapp .iabar{display:flex}
+.iabar .ia-t{flex:1 1 auto;min-width:0;font-size:12.5px;font-weight:700;color:var(--fg)}
+.iabar .ia-t small{display:block;font-size:11.5px;font-weight:600;color:var(--muted);margin-top:2px}
+.iabar .ia-go{flex:0 0 auto;font:inherit;font-size:12.5px;font-weight:800;color:#fff;border:0;border-radius:999px;
+  padding:9px 14px;min-height:38px;cursor:pointer;background:linear-gradient(135deg,var(--accent),var(--accent2))}
+@media (prefers-color-scheme:dark){.iabar .ia-go{color:var(--afg)}}
+.iabar .ia-x{flex:0 0 auto;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:transparent;
+  color:var(--muted);font:inherit;font-size:12px;line-height:1;cursor:pointer}
+/* ── 마이크·카메라가 막히는 곳(앱 안·블로그 글 안)에서 띄우는 창 ── */
+.iamodal{position:fixed;inset:0;z-index:90;display:none;align-items:center;justify-content:center;padding:18px;
+  background:rgba(8,10,16,.72);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+body.ia-lock{overflow:hidden}
+body.ia-lock .iamodal{display:flex}
+body.ia-lock .wrap{pointer-events:none}
+.iasheet{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);
+  width:100%;max-width:420px;max-height:92vh;overflow:auto;padding:22px 18px 16px;text-align:center}
+.iasheet .iaic{font-size:34px;line-height:1;margin-bottom:10px}
+.iasheet h2{font-size:17.5px;font-weight:800;letter-spacing:-.02em;margin:0 0 10px;line-height:1.45;text-wrap:balance}
+.iap{font-size:13.5px;font-weight:600;color:var(--muted);line-height:1.7;margin:0 0 14px}
+.iap b{color:var(--fg);font-weight:800}
+.iasteps{text-align:left;margin:0 0 16px;padding:12px 14px 12px 32px;border-radius:12px;background:var(--card2);
+  font-size:13px;font-weight:600;color:var(--muted);line-height:1.7}
+.iasteps li+li{margin-top:5px}
+.iasteps b{color:var(--fg);font-weight:800}
+.iabtn{display:block;width:100%;font:inherit;font-size:15px;font-weight:800;color:#fff;border:0;border-radius:12px;
+  padding:14px;min-height:52px;cursor:pointer;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:var(--shadow)}
+@media (prefers-color-scheme:dark){.iabtn{color:var(--afg)}}
+.iafine{margin:12px 0 0;font-size:12px;font-weight:600;color:var(--muted);line-height:1.6}
+.iafine button{font:inherit;font-size:12px;font-weight:700;color:var(--muted);background:none;border:0;padding:6px 8px;
+  text-decoration:underline;cursor:pointer;min-height:36px}
+
+/* ── 결과 카드 ── 화면을 덮지 않고 옆 칸(휴대폰은 본문) 흐름 안에 펼친다 */
+#doneCard{border-color:color-mix(in srgb,var(--ok) 40%,var(--line))}
+.dmsg{margin:0 0 10px;font-size:14px;font-weight:700;line-height:1.6}
+.dsteps{margin:0;padding:0 0 0 20px;font-size:13px;font-weight:600;line-height:1.75;color:var(--muted)}
+.dsteps b{color:var(--fg);font-weight:800}
+#doneImg{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:10px;margin:10px 0 0}
+.dimgnote{font-size:11.5px;font-weight:600;color:var(--muted);margin:6px 0 0;text-align:center}
+
+/* ── 두 칸 배치 · 넓은 화면에서 점검 결과를 옆에 붙인다 ── */
+.layout{display:grid;grid-template-columns:minmax(0,1fr);gap:0 16px}
+@media (min-width:980px){
+  .layout{grid-template-columns:minmax(0,1fr) 340px;align-items:start}
+  .side{position:sticky;top:8px;max-height:calc(100vh - 16px);overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;padding:0 2px 2px}
+  .side .card{margin-top:10px}
+}
+
+header{text-align:center;padding:14px 0 2px}
+.logo{display:inline-flex;align-items:center;gap:9px;font-size:22px;font-weight:800;letter-spacing:-.02em}
+.logo .ico{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:17px;color:#fff;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:var(--shadow)}
+.tag{font-size:14.5px;font-weight:600;color:var(--muted);margin:7px 0 0;text-wrap:balance}
+.tag b{color:var(--fg)}
+.badges{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:9px}
+.badge{font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--okbg);color:var(--ok)}
+.badge.gray{background:var(--card2);color:var(--muted);border:1px solid var(--line)}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:16px;margin-top:14px}
+.card h2{font-size:12px;font-weight:800;color:var(--muted);margin:0 0 12px;letter-spacing:.07em;
+  display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.card h2 .n{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:6px;margin-right:6px;
+  background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent);letter-spacing:0;font-size:11.5px}
+
+/* ── 탭 ── */
+.tabs{display:flex;gap:5px;margin-top:14px;background:var(--card2);border:1px solid var(--line);border-radius:13px;padding:5px}
+.tabs button{flex:1 1 0;min-width:0;border:0;background:transparent;color:var(--muted);font-size:14.5px;font-weight:800;
+  padding:8px 4px;border-radius:9px;cursor:pointer;min-height:52px;transition:.15s;line-height:1.25}
+.tabs button i{display:block;font-style:normal;font-size:11px;font-weight:600;opacity:.8;margin-top:1px}
+.tabs button.on{background:var(--card);color:var(--accent);box-shadow:var(--shadow)}
+
+/* ── 공통 입력 ── */
+.row{margin-top:12px}
+.lab{display:flex;align-items:baseline;justify-content:space-between;gap:8px;font-size:13px;font-weight:800;margin-bottom:7px}
+.lab .hint{font-weight:600;color:var(--muted);font-size:12px;text-align:right}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{flex:1 1 60px;border:1px solid var(--line);background:var(--card2);font-size:13px;
+  font-weight:800;padding:6px 4px;border-radius:11px;cursor:pointer;min-height:44px;transition:.12s;line-height:1.2}
+.seg button i{display:block;font-style:normal;font-size:10.5px;font-weight:600;color:var(--muted);margin-top:2px}
+.seg button:hover{border-color:var(--accent)}
+.seg button.on{border-color:transparent;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:var(--shadow)}
+.seg button.on i{color:rgba(255,255,255,.88)}
+@media (prefers-color-scheme:dark){.seg button.on{color:var(--afg)}.seg button.on i{color:rgba(11,20,48,.75)}}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 14px}
+@media (max-width:640px){.opts{grid-template-columns:minmax(0,1fr)}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--line);background:var(--card2);
+  font-size:13.5px;font-weight:800;padding:8px 12px;border-radius:12px;cursor:pointer;min-height:46px;transition:.12s;text-decoration:none;color:var(--fg)}
+.btn:hover{border-color:var(--accent)}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.45;cursor:default;transform:none}
+.btn.pri{border-color:transparent;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:var(--shadow)}
+@media (prefers-color-scheme:dark){.btn.pri{color:var(--afg)}}
+.btn.on{border-color:var(--accent);color:var(--accent)}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.btns .btn{flex:1 1 140px}
+.play{width:100%;border:0;border-radius:14px;min-height:56px;font-size:17px;font-weight:800;cursor:pointer;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:var(--shadow);
+  display:flex;align-items:center;justify-content:center;gap:10px;transition:.12s}
+.play:active{transform:scale(.985)}
+.play.stop{background:var(--fg);color:var(--bg)}
+@media (prefers-color-scheme:dark){.play{color:var(--afg)}}
+.rng{width:100%;margin:0;height:34px;accent-color:var(--accent);cursor:pointer;touch-action:pan-y}
+.chk{display:flex;gap:10px;align-items:center;padding:6px 0;cursor:pointer;font-size:13.5px;font-weight:700;min-height:42px}
+.chk input{flex:0 0 auto;width:20px;height:20px;margin:0;accent-color:var(--accent)}
+.sel{font:inherit;font-size:14px;font-weight:700;background:var(--card2);border:1px solid var(--line);border-radius:11px;
+  padding:8px 10px;min-height:44px;width:100%;color:var(--fg)}
+.tinp{font-size:16px;font-weight:600;background:var(--card2);border:1px solid var(--line);border-radius:11px;
+  padding:10px 12px;min-height:46px;width:100%;min-width:0;color:var(--fg);font-family:inherit}
+.tinp:focus,.sel:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+.small{font-size:12px;font-weight:600;color:var(--muted);line-height:1.65;margin:8px 0 0}
+.small b{color:var(--fg)}
+.note{border-radius:11px;padding:10px 12px;font-size:12.5px;font-weight:600;line-height:1.65;margin-top:11px}
+.note b{font-weight:800}
+.note.info{background:var(--card2);color:var(--muted);border:1px solid var(--line)}
+.note.info b{color:var(--fg)}
+.note.warn{background:var(--warnbg);color:var(--warn)}
+.note.bad{background:var(--dangerbg);color:var(--danger)}
+.note.good{background:var(--okbg);color:var(--ok)}
+
+/* ── 상태 알약 ── */
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:800;letter-spacing:.01em;padding:4px 10px;border-radius:999px;
+  background:var(--okbg);color:var(--ok);white-space:nowrap}
+.pill::before{content:'';width:7px;height:7px;border-radius:50%;background:currentColor}
+.pill.off{background:var(--dangerbg);color:var(--danger);cursor:pointer}
+.pill.idle{background:var(--card2);color:var(--muted);border:1px solid var(--line)}
+.pill.run::before{animation:blink 1.2s ease-in-out infinite}
+@keyframes blink{50%{opacity:.25}}
+
+/* ── 숫자 요약 ── */
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:12px}
+@media (max-width:640px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.st{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:8px 10px;min-width:0}
+.st span{display:block;font-size:11px;font-weight:800;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.st b{display:block;font-size:20px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.25;white-space:nowrap}
+.st b small{font-size:12px;color:var(--muted);font-weight:800;margin-left:1px}
+.st.bad b{color:var(--danger)}
+.st.good b{color:var(--ok)}
+.bar{height:7px;border-radius:9px;background:var(--line);overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--ok),#35c28a);border-radius:9px;transition:width .2s}
+
+/* ══ 키보드 그림 ══ 키 크기(--u)는 칸 폭에 맞춰 스크립트가 정한다 */
+.kbbox{overflow-x:auto;overflow-y:hidden;padding:4px 2px 8px;margin-top:12px;-webkit-overflow-scrolling:touch;outline:0;border-radius:12px}
+.kbbox:focus-visible{outline:2px solid var(--accent)}
+.kb{position:relative;--u:38px;margin:0 auto}
+.k{position:absolute;left:calc(var(--x) * var(--u));top:calc(var(--y) * var(--u));
+  width:calc(var(--w,1) * var(--u) - 4px);height:calc(var(--h,1) * var(--u) - 4px);
+  border-radius:calc(var(--u) * .15);background:var(--cap);border:1px solid var(--capb);box-shadow:0 2px 0 var(--capsh);
+  font-size:calc(var(--u) * .27);font-weight:700;color:var(--fg);line-height:1.05;
+  padding:calc(var(--u) * .08) calc(var(--u) * .1);display:flex;flex-direction:column;justify-content:flex-end;
+  overflow:hidden;user-select:none;-webkit-user-select:none;transition:background .12s,border-color .12s,transform .05s;white-space:nowrap}
+.k b{font-weight:800}
+.k .t{font-style:normal;font-size:.8em;color:var(--muted);font-weight:700;position:absolute;left:calc(var(--u) * .1);top:calc(var(--u) * .07)}
+.k .h{font-style:normal;font-size:.95em;color:var(--accent);font-weight:800;position:absolute;right:calc(var(--u) * .1);top:calc(var(--u) * .07)}
+.k.ok{background:var(--okcap);border-color:var(--okline)}
+.k.ok .h{color:var(--ok)}
+.k.dn{background:var(--accent);border-color:var(--accent);color:#fff;transform:translateY(2px);box-shadow:none}
+.k.dn .t,.k.dn .h{color:rgba(255,255,255,.85)}
+@media (prefers-color-scheme:dark){.k.dn{color:var(--afg)}.k.dn .t,.k.dn .h{color:rgba(11,20,48,.7)}}
+.k.bad{border:2px solid var(--danger)}
+.k em{position:absolute;right:1px;bottom:1px;background:var(--danger);color:#fff;font-size:calc(var(--u) * .24);font-weight:800;
+  border-radius:5px;padding:0 3px;font-style:normal;line-height:1.3}
+.k.no{opacity:.4;border-style:dashed;background:transparent;box-shadow:none}
+.k.na{opacity:.45;border-style:dashed;background:transparent;box-shadow:none;cursor:default}
+.kb.edit .k:not(.na){cursor:pointer}
+.kb.edit .k:not(.na):hover{border-color:var(--accent)}
+.kb.sm .k .t,.kb.sm .k .h{display:none}
+.kb.sm .k{justify-content:center;align-items:center;padding:0 1px}
+.kbwrap.off .k{filter:saturate(.5)}
+.kbwrap{position:relative;margin-top:12px}
+.kbwrap .kbbox{margin-top:0}
+.kbmsg{display:none;position:absolute;inset:0;z-index:2;align-items:center;justify-content:center;border-radius:12px;padding:10px;
+  background:color-mix(in srgb,var(--card) 70%,transparent);cursor:pointer}
+.kbmsg span{background:var(--danger);color:#fff;font-size:14px;font-weight:800;padding:10px 16px;border-radius:999px;box-shadow:var(--shadow);text-align:center;max-width:100%}
+.kbwrap.off .kbmsg{display:flex}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;min-height:30px}
+.chip{font-size:12.5px;font-weight:800;padding:4px 10px;border-radius:8px;background:var(--card2);border:1px solid var(--line);white-space:nowrap}
+.chip.dn{background:var(--accent);border-color:var(--accent);color:#fff}
+@media (prefers-color-scheme:dark){.chip.dn{color:var(--afg)}}
+.chip.ok{background:var(--okbg);border-color:transparent;color:var(--ok)}
+.chip.bad{background:var(--dangerbg);border-color:transparent;color:var(--danger)}
+.muted{color:var(--muted);font-size:12px;font-weight:600}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+@media (max-width:640px){.two{grid-template-columns:minmax(0,1fr)}}
+
+/* ── 입력 기록 표 ── */
+.tbl{overflow-x:auto;margin:4px 0 0;-webkit-overflow-scrolling:touch}
+.tbl table{border-collapse:collapse;width:100%;min-width:460px;font-size:13px}
+.tbl th,.tbl td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:middle}
+.tbl th{font-size:11.5px;color:var(--muted);font-weight:800;background:var(--card2);white-space:nowrap}
+.tbl td b{font-weight:800}
+.tbl td.num{font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+.tbl th.num{text-align:right}
+.tbl td i{display:block;font-style:normal;font-size:11px;font-weight:600;color:var(--muted)}
+.tbl tr.bad td{background:var(--dangerbg);color:var(--danger)}
+.tbl tr.bad td i{color:var(--danger);opacity:.8}
+.tbl tr.empty td{color:var(--muted);text-align:center;padding:16px 8px;font-weight:600}
+.combo{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13.5px;font-weight:700}
+.combo:last-child{border-bottom:0}
+.combo .ck{flex:0 0 auto;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:14px;font-weight:800;
+  background:var(--card2);border:1px solid var(--line);color:var(--muted)}
+.combo.ok .ck{background:var(--ok);border-color:var(--ok);color:#fff}
+.combo .nm{flex:1 1 auto;min-width:0}
+.combo .pr{flex:0 0 auto;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* ══ 마우스 ══ */
+.mpad{position:relative;border:2px dashed var(--line);border-radius:16px;background:var(--card2);min-height:280px;
+  display:grid;grid-template-columns:150px minmax(0,1fr);gap:12px;align-items:center;padding:14px;cursor:crosshair;
+  user-select:none;-webkit-user-select:none;touch-action:none;outline:0}
+.mpad.hot{border-color:var(--accent)}
+@media (max-width:520px){.mpad{grid-template-columns:110px minmax(0,1fr);min-height:240px}}
+.msvg{width:100%;height:auto;display:block}
+.msvg .body{fill:var(--cap);stroke:var(--capb);stroke-width:3}
+.msvg .pt{fill:var(--cap);stroke:var(--capb);stroke-width:3;transition:fill .1s}
+.msvg .pt.ok{fill:var(--okcap);stroke:var(--okline)}
+.msvg .pt.dn{fill:var(--accent);stroke:var(--accent)}
+.msvg .pt.bad{stroke:var(--danger);stroke-width:5}
+.msvg .ar{fill:var(--muted);opacity:.35;transition:opacity .1s,fill .1s}
+.msvg .ar.ok{fill:var(--ok);opacity:.9}
+.msvg .ar.dn{fill:var(--accent);opacity:1}
+.msvg text{font-family:inherit;font-size:13px;font-weight:800;fill:var(--muted)}
+.mlast{font-size:14px;font-weight:800;line-height:1.55;min-height:44px}
+.mlast small{display:block;font-size:12px;font-weight:600;color:var(--muted)}
+.mlast.bad{color:var(--danger)}
+.mwheel{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.cpspad{margin-top:12px;border-radius:16px;min-height:170px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 16%,var(--card2)),var(--card2));border:2px solid var(--line);
+  cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:manipulation;text-align:center;padding:14px}
+.cpspad.run{border-color:var(--accent)}
+.cpspad b{font-size:44px;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1.05}
+.cpspad span{font-size:13.5px;font-weight:700;color:var(--muted);margin-top:6px}
+.hz{font-size:40px;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1.1}
+.hz small{font-size:15px;color:var(--muted);font-weight:800;margin-left:3px}
+
+/* ══ 화면 ══ */
+.sw{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-top:12px}
+.sw button{border:1px solid var(--line);border-radius:10px;min-height:52px;cursor:pointer;font-size:11.5px;font-weight:800;
+  display:flex;align-items:flex-end;justify-content:center;padding:4px;position:relative}
+.sw button.seen::after{content:'✓';position:absolute;top:3px;right:6px;font-size:12px}
+.ufo{display:block;width:100%;height:150px;border-radius:12px;background:#10141d;margin-top:12px}
+.marks{list-style:none;margin:8px 0 0;padding:0;font-size:13px;font-weight:700}
+.marks li{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px solid var(--line)}
+.marks li span{color:var(--muted);font-weight:600}
+
+/* 전체 화면 테스트(불량화소·터치) — 본문 위를 통째로 덮는다(사용자가 시작한 전체 화면 모드) */
+#fs{position:fixed;inset:0;z-index:200;display:none;background:#000;touch-action:none;user-select:none;-webkit-user-select:none;overflow:hidden}
+#fs.on{display:block}
+body.fson{overflow:hidden}
+#fs.cur-off{cursor:none}
+#fsCv{position:absolute;inset:0;width:100%;height:100%;display:none}
+#fs.touch #fsCv{display:block}
+#fsHint{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(20,24,34,.86);color:#fff;
+  font-size:15px;font-weight:700;line-height:1.6;padding:14px 18px;border-radius:14px;text-align:center;max-width:88vw;
+  transition:opacity .35s;pointer-events:none}
+#fsHint b{font-size:19px;font-weight:800;display:block}
+#fsHint.fade{opacity:0}
+#fsX{position:absolute;top:max(10px,env(safe-area-inset-top));right:10px;z-index:3;min-height:44px;padding:8px 14px;border-radius:999px;border:0;
+  background:rgba(20,24,34,.8);color:#fff;font-size:14px;font-weight:800;cursor:pointer;transition:opacity .3s}
+#fsX.fade{opacity:0;pointer-events:none}
+.mk{position:absolute;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;border:3px solid #fff;mix-blend-mode:difference;pointer-events:none}
+#fsBar{position:absolute;left:8px;right:8px;top:max(8px,env(safe-area-inset-top));z-index:3;display:none;align-items:center;gap:8px;
+  background:rgba(20,24,34,.88);color:#fff;border-radius:14px;padding:6px 8px 6px 14px;font-size:14px;font-weight:800}
+#fs.touch #fsBar{display:flex}
+#fs.touch #fsX,#fs.touch #fsHint{display:none}
+#fsBar.bottom{top:auto;bottom:max(8px,env(safe-area-inset-bottom))}
+#fsBar span{flex:1 1 auto;min-width:0;font-variant-numeric:tabular-nums}
+#fsBar button{flex:0 0 auto;min-height:40px;padding:6px 12px;border-radius:10px;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:13px;font-weight:800;cursor:pointer}
+#fsBar button.end{background:#fff;color:#141a26}
+
+/* ══ 소리·카메라 ══ */
+.spk{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
+.spk .btn{min-height:60px;flex-direction:column;gap:2px;font-size:14px}
+.spk .btn i{font-style:normal;font-size:11.5px;font-weight:600;color:var(--muted)}
+.spk .btn.play1{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,var(--card2))}
+.heard{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}
+.heard .hq{border:1px solid var(--line);border-radius:12px;padding:8px 10px;background:var(--card2)}
+.heard .hq>span{display:block;font-size:12px;font-weight:800;color:var(--muted);margin-bottom:6px}
+.heard .seg button{min-height:40px}
+.meter{position:relative;height:22px;border-radius:8px;background:var(--line);overflow:hidden;margin-top:10px}
+.meter i{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,#1fb877,#9ad33a 70%,#f5b400 85%,#ef4444)}
+.meter u{position:absolute;top:0;bottom:0;width:3px;background:var(--fg);left:0;text-decoration:none}
+.mscale{display:flex;justify-content:space-between;font-size:10.5px;font-weight:700;color:var(--muted);margin-top:3px;font-variant-numeric:tabular-nums}
+.wave{display:block;width:100%;height:90px;border-radius:12px;background:var(--card2);border:1px solid var(--line);margin-top:10px}
+.db{font-size:30px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.db small{font-size:13px;color:var(--muted);font-weight:800;margin-left:2px}
+.vbox{position:relative;margin-top:12px;border-radius:14px;overflow:hidden;background:#0c0f16;aspect-ratio:16/9;display:grid;place-items:center}
+.vbox video{width:100%;height:100%;object-fit:contain;display:block}
+.vbox video.mir{transform:scaleX(-1)}
+.vbox .vph{color:#8e9ab3;font-size:13.5px;font-weight:700;text-align:center;padding:16px;position:absolute}
+.recbox audio{width:100%;margin-top:10px}
+
+/* ══ 점검 결과(옆 칸) ══ */
+.pv h2 .pvinfo{letter-spacing:.02em;font-weight:700;color:var(--muted);white-space:nowrap}
+.sum{list-style:none;margin:0;padding:0}
+.sum li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:start;padding:10px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.sum li:first-child{padding-top:2px}
+.sum li:last-child{border-bottom:0}
+.sum .ic{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font-size:16px;background:var(--card2);border:1px solid var(--line)}
+.sum .tx{min-width:0}
+.sum .tx b{display:block;font-size:14px;font-weight:800}
+.sum .tx span{display:block;font-size:12.5px;font-weight:600;color:var(--muted);line-height:1.55}
+.sum .bd{font-size:11px;font-weight:800;padding:3px 8px;border-radius:999px;white-space:nowrap;background:var(--card2);color:var(--muted);border:1px solid var(--line)}
+.sum .bd.ok{background:var(--okbg);color:var(--ok);border-color:transparent}
+.sum .bd.bad{background:var(--dangerbg);color:var(--danger);border-color:transparent}
+.sum .bd.run{background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent);border-color:transparent}
+.sum li.cur .ic{border-color:var(--accent)}
+
+/* ── 설명 ── */
+.use{list-style:none;margin:0;padding:0}
+.use li{position:relative;padding-left:26px;margin-bottom:13px;font-size:13.5px;font-weight:600;line-height:1.65}
+.use li:last-child{margin-bottom:0}
+.use li::before{content:"▸";position:absolute;left:4px;top:0;color:var(--accent);font-weight:800}
+.use li b{font-weight:800}
+.use li .d{display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin-top:3px;line-height:1.7}
+.xtbl table{min-width:640px}
+.xtbl td{font-size:12.5px;line-height:1.6}
+details.faq{border-top:1px solid var(--line);padding:12px 0}
+details.faq:first-of-type{border-top:0}
+details.faq summary{cursor:pointer;font-weight:700;font-size:14px;list-style:none;padding:10px 0;margin:-10px 0}
+details.faq summary::-webkit-details-marker{display:none}
+details.faq summary::before{content:"＋ ";color:var(--accent);font-weight:800}
+details.faq[open] summary::before{content:"－ "}
+details.faq p{margin:8px 0 0;font-size:13.5px;color:var(--muted);line-height:1.8}
+details.faq p b{color:var(--fg)}
+
+/* ══ 주의 문구 ══ */
+.nbx{border:1px solid var(--warn);border-radius:14px;background:var(--warnbg);padding:14px 15px;margin-top:14px}
+.nbx-h{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:800;color:var(--warn);margin:0 0 10px}
+.nbx-h .ic{flex:0 0 auto;width:19px;height:19px;border-radius:6px;background:var(--warn);color:var(--warnbg);
+  font-size:12px;font-weight:800;display:grid;place-items:center;line-height:1}
+.nbx ul{list-style:none;margin:0;padding:0}
+.nbx li{position:relative;padding-left:12px;margin-bottom:7px;font-size:12px;font-weight:600;line-height:1.68;color:var(--warn)}
+.nbx li:last-child{margin-bottom:0}
+.nbx li::before{content:"·";position:absolute;left:1px;top:-1px;font-weight:800}
+.nbx li b{font-weight:800}
+.nbx .nbx-f{margin:11px 0 0;padding-top:10px;border-top:1px solid color-mix(in srgb,var(--warn) 32%,transparent);
+  font-size:12px;font-weight:700;line-height:1.72;color:var(--warn)}
+
+footer{text-align:center;color:var(--muted);font-size:12px;margin-top:22px;line-height:1.8}
+footer b{color:var(--fg)}
+#toast{position:fixed;left:50%;bottom:calc(30px + env(safe-area-inset-bottom));transform:translate(-50%,20px);background:#131a2c;color:#fff;font-size:13.5px;
+  font-weight:700;line-height:1.5;padding:10px 16px;border-radius:14px;width:max-content;opacity:0;pointer-events:none;transition:.25s;z-index:300;
+  max-width:92vw;text-align:center}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+@media (prefers-color-scheme:dark){#toast{background:#e7ecf7;color:#0b1430}}
+
+@media (max-width:520px){
+  .card{padding:13px}
+  .tag{font-size:13.5px}
+  .badges{display:none}
+  .tabs button{font-size:13px;min-height:54px;padding:5px 2px;letter-spacing:-.02em}
+  .tabs button i{display:none}
+  .tabs button .e{display:block;font-size:17px;line-height:1.2;margin-bottom:1px}
+  .sw{grid-template-columns:repeat(5,minmax(0,1fr))}
+  .hz{font-size:34px}
+}
+@media (max-width:360px){
+  .tabs button{font-size:12px}
+  .stats .st b{font-size:17px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- 네이버·카카오 앱 안에서 열렸을 때만 보이는 띠 (body.inapp)
+     키보드·마우스·화면 색 테스트는 앱 안에서도 되므로 화면을 막지는 않는다.
+     막히는 기능(마이크·카메라)을 누르는 순간에만 창을 띄운다 -->
+<div class="iabar" id="iabar">
+  <div class="ia-t"><span id="iaMsg">앱 안에서는 마이크·카메라가 막힐 수 있어요.</span>
+    <small id="iaSub">키보드·마우스·화면 테스트는 여기서도 됩니다. 마이크·카메라·전체 화면은 브라우저에서 열어 주세요.</small></div>
+  <button class="ia-go" id="iaGo" type="button">크롬에서 열기</button>
+  <button class="ia-x" id="iaX" type="button" aria-label="안내 닫기">✕</button>
+</div>
+
+<header>
+  <div class="logo"><span class="ico">⌨</span><span>키보드 테스트</span></div>
+  <p class="tag">누른 키가 <b>자판 그림</b>에 바로 불이 들어오고, <b>채터링</b>(한 번 눌렀는데 두 번)·<b>동시 입력</b>까지 잡아냅니다</p>
+  <div class="badges">
+    <span class="badge">🔒 누른 키·녹음·영상은 어디에도 전송 안 함</span>
+    <span class="badge gray">한/영·한자 키까지</span>
+    <span class="badge gray">마우스·모니터·마이크도</span>
+    <span class="badge gray">무료 · 설치 없음</span>
+  </div>
+</header>
+
+<div class="tabs" id="tabs" role="tablist">
+  <button type="button" role="tab" data-tab="kbd" id="tabKbd"><span class="e">⌨️</span> 키보드<i>채터링·동시 입력</i></button>
+  <button type="button" role="tab" data-tab="mouse" id="tabMouse"><span class="e">🖱️</span> 마우스<i>더블클릭·휠·CPS</i></button>
+  <button type="button" role="tab" data-tab="screen" id="tabScreen"><span class="e">🖥️</span> 화면<i>불량화소·주사율·터치</i></button>
+  <button type="button" role="tab" data-tab="sound" id="tabSound"><span class="e">🎤</span> 소리·카메라<i>스피커·마이크·웹캠</i></button>
+</div>
+
+<div class="layout">
+<main id="stage">
+
+<!-- ═════════════ 키보드 ═════════════ -->
+<section class="panel" id="pKbd">
+  <section class="card" id="kbCard">
+    <h2><span><span class="n">1</span>키를 하나씩 눌러 보세요</span><span class="pill" id="kbPill">키 입력을 받는 중</span></h2>
+    <div class="note warn hide" id="kbTouchNote">휴대폰·태블릿의 <b>화면 자판은 키 신호를 제대로 보내지 않아</b> 이 테스트에 맞지 않습니다. 블루투스·USB 키보드를 연결했을 때 쓰세요. 휴대폰 자체 점검은 <b>화면</b>·<b>소리·카메라</b> 탭에서 할 수 있습니다.</div>
+    <div class="opts">
+      <div>
+        <div class="lab"><span>자판 모양</span><span class="hint" id="kbTotHint">104키</span></div>
+        <div class="seg" id="laySeg">
+          <button type="button" data-v="full">풀배열<i>숫자 키패드 있음</i></button>
+          <button type="button" data-v="tkl">텐키리스<i>숫자 키패드 없음</i></button>
+          <button type="button" data-v="laptop">노트북<i>작은 자판</i></button>
+        </div>
+      </div>
+      <div>
+        <div class="lab"><span>채터링 기준</span><span class="hint">뗀 뒤 이 시간 안에 다시 눌리면</span></div>
+        <div class="seg" id="kthrSeg">
+          <button type="button" data-v="20">20ms</button>
+          <button type="button" data-v="40">40ms<i>기본</i></button>
+          <button type="button" data-v="60">60ms</button>
+          <button type="button" data-v="80">80ms</button>
+        </div>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="st good"><span>확인한 키</span><b><span id="kCnt" style="display:inline;font-size:inherit;color:inherit">0</span><small id="kTot">/104</small></b><div class="bar"><i id="kBar"></i></div></div>
+      <div class="st" id="kChatBox"><span>채터링 의심</span><b id="kChat">0<small>회</small></b></div>
+      <div class="st"><span>최대 동시 입력</span><b id="kMax">0<small>키</small></b></div>
+      <div class="st"><span>방금 누른 키</span><b id="kLast" style="font-size:16px;overflow:hidden;text-overflow:ellipsis">—</b></div>
+    </div>
+    <div class="kbwrap" id="kbWrap">
+      <div class="kbbox" id="kbBox" tabindex="-1" aria-label="키보드 그림 — 키를 누르면 불이 들어옵니다">
+        <div class="kb" id="kb"></div>
+      </div>
+      <div class="kbmsg" id="kbMsg"><span>여기를 한 번 누르면 다시 키를 받습니다</span></div>
+    </div>
+    <div class="row">
+      <div class="lab"><span>지금 누르고 있는 키</span><span class="hint">블루=눌림 · 초록=확인 · 빨간 테두리=채터링 의심</span></div>
+      <div class="chips" id="kDown"><span class="muted">키를 누르면 여기에 보입니다</span></div>
+    </div>
+    <div class="row hide" id="kExtraRow">
+      <div class="lab"><span>자판 그림에 없는 키</span><span class="hint">멀티미디어 키 등</span></div>
+      <div class="chips" id="kExtra"></div>
+    </div>
+    <div class="btns">
+      <button class="btn" type="button" id="kReset">↺ 처음부터 다시</button>
+      <button class="btn" type="button" id="kEdit">✂ 내 키보드에 없는 키 빼기</button>
+      <button class="btn" type="button" id="kPause">⏸ 키 받기 멈춤</button>
+    </div>
+    <p class="small">테스트하는 동안 스페이스·방향키·F5·Tab·Alt 는 <b>페이지를 움직이지 않습니다.</b> 단, <b>Ctrl+W(탭 닫기)·Alt+F4·Win+L</b> 은 브라우저·윈도우가 먼저 처리해서 막을 수 없으니 누르지 마세요. <b>Fn</b> 키는 키보드 안에서 처리되어 컴퓨터로 신호가 오지 않으므로 감지할 수 없습니다.</p>
+  </section>
+
+  <section class="card">
+    <h2><span><span class="n">2</span>입력 기록 · 채터링 찾기</span><span class="muted" id="kRep"></span></h2>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>키</th><th>동작</th><th class="num">누른 시간</th><th class="num">뗀 뒤 다시 누르기까지</th></tr></thead>
+        <tbody id="kLog"><tr class="empty"><td colspan="4">아직 누른 키가 없습니다</td></tr></tbody>
+      </table>
+    </div>
+    <div class="note info"><b>채터링 확인법</b> — 의심 가는 키를 <b>천천히 한 번씩</b> 20번쯤 눌러 보세요. 한 번 눌렀는데 <b>뗀 뒤 40ms 안에</b> 같은 키가 또 들어오면 빨간 줄로 남습니다. 빠르게 연타하면 사람 손으로도 걸릴 수 있으니 연타는 하지 마세요.</div>
+    <div class="row">
+      <div class="lab"><span>한글 입력 확인</span><span class="hint">한/영 전환이 되는지 직접 쳐 보기</span></div>
+      <input class="tinp" id="kTxt" type="text" placeholder="여기를 누르고 한글·영어를 쳐 보세요" autocomplete="off" spellcheck="false">
+      <p class="small">이 칸에 커서가 있는 동안에는 위 테스트가 잠시 쉽니다. 칸 밖을 누르면 다시 키를 받습니다.</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2><span><span class="n">3</span>동시 입력(고스팅) 확인</span><span class="muted">여러 키를 한꺼번에 누르고 있기</span></h2>
+    <div id="combos"></div>
+    <p class="small">게임에서 「걸으면서 점프하면 키가 씹힌다」면 이 항목을 보세요. 조합을 다 누르고 있어도 초록이 안 되면 그 조합에서 <b>동시 입력이 막히는 키보드</b>입니다. 사무용·노트북 키보드는 특정 조합에서 막히는 경우가 흔하고, 게임용은 보통 6키 이상 들어옵니다.</p>
+  </section>
+</section>
+
+<!-- ═════════════ 마우스 ═════════════ -->
+<section class="panel hide" id="pMouse">
+  <section class="card">
+    <h2><span><span class="n">1</span>단추·휠·옆 단추 눌러 보기</span><span class="pill idle" id="mPill">점선 상자 안에서</span></h2>
+    <div class="mpad" id="mpad" tabindex="-1">
+      <svg class="msvg" viewBox="0 0 200 300" aria-hidden="true">
+        <path class="body" d="M40,110 L40,210 Q40,288 100,288 Q160,288 160,210 L160,110 Z"/>
+        <path class="pt" id="mp0" d="M40,108 L40,82 Q40,20 97,18 L97,108 Z"/>
+        <path class="pt" id="mp2" d="M103,18 Q160,20 160,82 L160,108 L103,108 Z"/>
+        <rect class="pt" id="mp1" x="88" y="38" width="24" height="52" rx="12"/>
+        <rect class="pt" id="mp4" x="26" y="124" width="14" height="34" rx="6"/>
+        <rect class="pt" id="mp3" x="26" y="164" width="14" height="34" rx="6"/>
+        <path class="ar" id="mwU" d="M100,22 L108,33 L92,33 Z"/>
+        <path class="ar" id="mwD" d="M100,106 L108,95 L92,95 Z"/>
+        <path class="ar" id="mwL" d="M72,64 L82,56 L82,72 Z"/>
+        <path class="ar" id="mwR" d="M128,64 L118,56 L118,72 Z"/>
+        <text x="4" y="146">앞</text><text x="4" y="186">뒤</text>
+        <text x="58" y="138">왼쪽</text><text x="113" y="138">오른쪽</text>
+      </svg>
+      <div>
+        <div class="mlast" id="mLast">점선 상자 안에서 단추를 하나씩 눌러 보세요<small>왼쪽·오른쪽·휠 클릭·옆 단추(뒤로·앞으로)와 휠 굴리기</small></div>
+        <div class="mwheel" id="mWheel"></div>
+      </div>
+    </div>
+    <div class="opts row">
+      <div>
+        <div class="lab"><span>두 번 눌림(더블클릭) 기준</span><span class="hint">뗀 뒤 이 시간 안에 또 눌리면</span></div>
+        <div class="seg" id="mthrSeg">
+          <button type="button" data-v="20">20ms</button>
+          <button type="button" data-v="30">30ms<i>기본</i></button>
+          <button type="button" data-v="50">50ms</button>
+          <button type="button" data-v="80">80ms</button>
+        </div>
+      </div>
+      <div>
+        <div class="lab"><span>폴링레이트(추정)</span><span class="hint" id="pollHint">상자 안에서 원을 그리며 빠르게</span></div>
+        <div class="hz" id="pollHz">?<small>Hz</small></div>
+      </div>
+    </div>
+    <div class="tbl row">
+      <table>
+        <thead><tr><th>단추</th><th class="num">누른 횟수</th><th class="num">두 번 눌림 의심</th><th class="num">방금 누른 시간</th></tr></thead>
+        <tbody id="mTbody"></tbody>
+      </table>
+    </div>
+    <div class="note info"><b>더블클릭 현상 확인법</b> — 한 단추를 <b>천천히 한 번씩</b> 30번쯤 눌러 보세요. 한 번 눌렀는데 두 번으로 잡히면 「두 번 눌림 의심」이 올라가고 상자가 빨갛게 번쩍입니다. 휠은 한 방향으로 쭉 굴렸을 때 <b>반대 방향이 섞여 들어오면</b> 「휠 역방향 튐」으로 셉니다.</div>
+    <div class="btns"><button class="btn" type="button" id="mReset">↺ 마우스 기록 지우기</button></div>
+  </section>
+
+  <section class="card">
+    <h2><span><span class="n">2</span>클릭 속도(CPS) 재기</span><span class="muted" id="cpsBest"></span></h2>
+    <div class="seg" id="cpsSeg">
+      <button type="button" data-v="1">1초</button>
+      <button type="button" data-v="5">5초</button>
+      <button type="button" data-v="10">10초</button>
+    </div>
+    <div class="cpspad" id="cpsPad" role="button" tabindex="-1">
+      <b id="cpsBig">클릭!</b>
+      <span id="cpsSub">누르는 순간 시작합니다 · 휴대폰은 손가락으로 톡톡</span>
+    </div>
+    <p class="small">CPS 는 1초에 몇 번 눌렀는지입니다. 게임 커뮤니티에서 흔히 쓰는 재미용 측정이며, 여기서 잰 동안은 <b>두 번 눌림 판정을 하지 않습니다</b>(빠르게 누르는 게 목적이라서).</p>
+  </section>
+</section>
+
+<!-- ═════════════ 화면 ═════════════ -->
+<section class="panel hide" id="pScreen">
+  <section class="card">
+    <h2><span><span class="n">1</span>불량화소 · 색 화면 테스트</span><span class="muted" id="scSeen">0/10 봄</span></h2>
+    <button class="play" type="button" id="scStart">▶ 전체 화면으로 시작</button>
+    <div class="sw" id="scSw"></div>
+    <div class="note info">
+      <b>누르면(탭하면) 다음 색</b> · ← 이전 · <b>Esc</b> 끝내기 · 이상한 점을 찾으면 그 자리를 <b>길게 누르거나 오른쪽 클릭</b>해 동그라미로 표시해 두세요.
+      <br>검정 화면에서 <b>밝게 빛나는 점</b>(휘점)과 가장자리 빛샘을, 흰 화면에서 <b>검은 점</b>(암점)을, 빨강·초록·파랑에서 <b>색이 빠진 점</b>을 찾습니다. 어두운 방에서 화면 밝기를 최대로 하면 잘 보입니다.
+    </div>
+    <div class="row hide" id="scMarkRow">
+      <div class="lab"><span>표시한 곳</span><button class="btn" type="button" id="scMarkClr" style="min-height:36px;padding:4px 10px;font-size:12px">지우기</button></div>
+      <ul class="marks" id="scMarks"></ul>
+      <p class="small">좌표는 화면 왼쪽 위를 0으로 한 <b>실제 화소 위치</b>(배율 반영)입니다. 교환·A/S 문의 때 사진과 함께 알려 주면 찾기 쉽습니다.</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2><span><span class="n">2</span>주사율(Hz) · 잔상</span><button class="btn" type="button" id="hzBtn" style="min-height:36px;padding:4px 12px;font-size:12.5px">다시 재기</button></h2>
+    <div class="hz" id="hzBig">—<small>Hz</small></div>
+    <p class="small" id="hzSub">화면이 1초에 몇 번 새로 그려지는지 잽니다.</p>
+    <canvas class="ufo" id="ufo" width="800" height="150" aria-label="움직이는 네모 — 잔상 보기"></canvas>
+    <p class="small">위에서부터 초당 <b>240·480·960 화소</b>로 움직이는 네모입니다. 네모 뒤에 <b>흐린 꼬리(잔상)</b>가 길거나, 움직임이 <b>뚝뚝 끊기면</b> 주사율이 낮거나 응답 속도가 느린 화면입니다. 144Hz 모니터인데 60 근처로 나오면 아래 「자주 묻는 질문」을 보세요.</p>
+  </section>
+
+  <section class="card">
+    <h2><span><span class="n">3</span>터치 테스트(휴대폰·태블릿·터치 노트북)</span><span class="muted" id="tcRes"></span></h2>
+    <button class="play" type="button" id="tcStart">▶ 터치 테스트 시작</button>
+    <p class="small">화면 전체가 칸으로 나뉩니다. 손가락으로 <b>구석구석 문질러</b> 모든 칸을 칠해 보세요. 문질러도 <b>칠해지지 않는 칸</b>이 있으면 그 부분 터치가 안 되는 것입니다. 여러 손가락을 한꺼번에 올리면 <b>동시에 몇 개까지</b> 인식하는지도 셉니다.</p>
+  </section>
+</section>
+
+<!-- ═════════════ 소리·카메라 ═════════════ -->
+<section class="panel hide" id="pSound">
+  <section class="card">
+    <h2><span><span class="n">1</span>스피커 · 이어폰 좌우</span><span class="muted" id="spkNow"></span></h2>
+    <div class="row" style="margin-top:0">
+      <div class="lab"><span>소리 크기</span><span class="hint" id="volHint">40%</span></div>
+      <input class="rng" id="vol" type="range" min="5" max="100" step="5" value="40" aria-label="소리 크기">
+    </div>
+    <div class="spk">
+      <button class="btn" type="button" data-pan="-1">◀ 왼쪽<i>왼쪽에서만</i></button>
+      <button class="btn" type="button" data-pan="0">● 가운데<i>양쪽 같이</i></button>
+      <button class="btn" type="button" data-pan="1">오른쪽 ▶<i>오른쪽에서만</i></button>
+    </div>
+    <div class="heard">
+      <div class="hq"><span>왼쪽이 들렸나요?</span><div class="seg" id="hL"><button type="button" data-v="1">들림</button><button type="button" data-v="0">안 들림</button></div></div>
+      <div class="hq"><span>오른쪽이 들렸나요?</span><div class="seg" id="hR"><button type="button" data-v="1">들림</button><button type="button" data-v="0">안 들림</button></div></div>
+    </div>
+    <div class="btns">
+      <button class="btn" type="button" id="swpBtn">〰 저음 → 고음 훑기 (10초)</button>
+      <button class="btn" type="button" id="altBtn">↔ 왼쪽·오른쪽 번갈아</button>
+    </div>
+    <p class="small"><b>소리를 작게 한 뒤</b> 시작하세요. 이어폰을 거꾸로 꼈거나 한쪽이 고장 났는지, 스피커 선이 좌우 바뀌었는지 확인합니다. 훑기는 낮은 소리(40Hz)에서 높은 소리(16,000Hz)까지 올라가며, <b>어느 높이에서 소리가 끊기거나 떨리는지</b> 들어 봅니다(높은 소리는 나이가 들수록 잘 안 들리는 것이 정상입니다).</p>
+  </section>
+
+  <section class="card">
+    <h2><span><span class="n">2</span>마이크 테스트</span><span class="pill idle" id="micPill">꺼짐</span></h2>
+    <button class="play" type="button" id="micBtn">🎤 마이크 켜기</button>
+    <div class="row hide" id="micDevRow">
+      <div class="lab"><span>마이크 고르기</span><span class="hint" id="micInfo"></span></div>
+      <select class="sel" id="micSel"></select>
+      <label class="chk"><input type="checkbox" id="micNs" checked> 잡음 억제·에코 제거 켜기 <span class="muted">(끄면 마이크 원래 소리)</span></label>
+    </div>
+    <div class="two row" style="align-items:end">
+      <div><div class="lab"><span>지금 소리 크기</span></div><div class="db" id="micDb">—<small>dB</small></div></div>
+      <div><div class="lab"><span>가장 컸던 소리</span></div><div class="db" id="micMax">—<small>dB</small></div></div>
+    </div>
+    <div class="meter"><i id="micBar"></i><u id="micPk"></u></div>
+    <div class="mscale"><span>-60</span><span>-40</span><span>-20</span><span>0 dB</span></div>
+    <canvas class="wave" id="micWave" width="800" height="180"></canvas>
+    <p class="small" id="micMsg">마이크를 켜고 「아, 아, 마이크 테스트」 하고 말해 보세요. 말할 때 막대가 <b>초록~노랑</b>까지 올라오면 알맞은 크기입니다.</p>
+    <div class="recbox">
+      <button class="btn" type="button" id="recBtn" disabled style="width:100%">● 5초 녹음하고 들어 보기</button>
+      <audio id="recAud" controls class="hide"></audio>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2><span><span class="n">3</span>카메라(웹캠) 테스트</span><span class="pill idle" id="camPill">꺼짐</span></h2>
+    <button class="play" type="button" id="camBtn">📷 카메라 켜기</button>
+    <div class="opts row">
+      <div>
+        <div class="lab"><span>해상도 요청</span><span class="hint">카메라가 되는 만큼</span></div>
+        <div class="seg" id="camResSeg">
+          <button type="button" data-v="max">최대</button>
+          <button type="button" data-v="1080">1080p</button>
+          <button type="button" data-v="720">720p</button>
+          <button type="button" data-v="480">480p</button>
+        </div>
+      </div>
+      <div class="hide" id="camDevRow">
+        <div class="lab"><span>카메라 고르기</span></div>
+        <select class="sel" id="camSel"></select>
+      </div>
+    </div>
+    <label class="chk"><input type="checkbox" id="camMir" checked> 거울처럼 좌우 뒤집어 보기</label>
+    <div class="vbox"><video id="camVid" playsinline muted autoplay class="mir"></video><div class="vph" id="camPh">카메라를 켜면 여기에 보입니다</div></div>
+    <p class="small" id="camInfo">화상 회의·온라인 수업 전에 화면이 나오는지, 실제 해상도와 <b>초당 프레임(fps)</b>이 몇인지 확인합니다.</p>
+  </section>
+</section>
+</main>
+
+<aside class="side" id="side">
+  <section class="card pv" id="pvCard">
+    <h2><span>점검 결과</span><span class="pvinfo" id="pvWhen"></span></h2>
+    <ul class="sum" id="sum"></ul>
+    <div class="btns" style="margin-top:10px">
+      <button class="btn" type="button" id="copyBtn">📋 글로 복사</button>
+      <button class="btn pri" type="button" id="pngBtn">🖼️ 결과 이미지 저장</button>
+    </div>
+    <p class="small">중고 거래 글·A/S 문의에 붙일 수 있게 지금까지 확인한 내용을 한 번에 정리합니다. 기기 이름·녹음·영상은 넣지 않습니다.</p>
+  </section>
+
+  <!-- 결과 카드 — 키보드 전 키 확인·색 화면 10가지 끝까지 보기·결과 저장/복사 같은
+       「결과가 나온 순간」에만 옆 칸(휴대폰은 본문)에 펼쳐지고, 화면을 덮지 않습니다 -->
+  <section class="card hide" id="doneCard">
+    <h2><span id="doneTitle">점검을 마쳤습니다</span><button class="btn" id="doneHide" type="button" style="min-height:36px;padding:4px 12px;font-size:12.5px">닫기</button></h2>
+    <p class="dmsg" id="doneMsg"></p>
+    <ol class="dsteps" id="doneSteps"></ol>
+    <img id="doneImg" class="hide" alt="점검 결과 이미지">
+    <p class="dimgnote hide" id="doneImgNote">휴대폰에서는 이미지를 길게 눌러 사진으로 저장할 수도 있습니다</p>
+  </section>
+</aside>
+</div>
+
+<!-- ══════════ 설명 ══════════ -->
+<section class="card">
+  <h2><span>이럴 때 씁니다</span></h2>
+  <ul class="use">
+    <li><b>새로 산 키보드, 중고로 받은 키보드가 멀쩡한지 볼 때</b>
+      <span class="d">키를 하나씩 눌러 자판 그림이 <b>전부 초록</b>으로 바뀌면 모든 키가 들어오는 것입니다. 한/영·한자 키와 숫자 키패드까지 봅니다.</span></li>
+    <li><b>글자가 가끔 두 번씩 찍힐 때(채터링)</b>
+      <span class="d">「ㅇ」을 한 번 쳤는데 「ㅇㅇ」이 되는 증상입니다. 키를 뗀 뒤 아주 짧은 시간 안에 같은 키가 또 들어오면 <b>어느 키가 몇 번</b> 그랬는지 빨갛게 남깁니다.</span></li>
+    <li><b>게임에서 여러 키를 같이 누르면 하나가 씹힐 때(고스팅)</b>
+      <span class="d">동시에 몇 키까지 들어오는지와, W·A·S·D·Shift·스페이스처럼 자주 쓰는 조합이 다 들어오는지 확인합니다.</span></li>
+    <li><b>마우스가 한 번 눌렀는데 더블클릭될 때, 휠이 거꾸로 튈 때</b>
+      <span class="d">단추마다 「두 번 눌림」 횟수와, 휠을 한쪽으로 굴렸는데 반대 방향이 섞여 들어온 횟수를 셉니다. 옆 단추(뒤로·앞으로)와 폴링레이트도 봅니다.</span></li>
+    <li><b>새 모니터·중고 노트북·휴대폰 화면에 불량화소가 있는지 볼 때</b>
+      <span class="d">검정·흰색·빨강·초록·파랑 등 10가지 화면을 넘기며 점을 찾고, 찾은 자리를 표시해 둡니다. 주사율(144Hz가 제대로 나오는지)과 휴대폰 터치 불량도 확인합니다.</span></li>
+    <li><b>화상 회의·온라인 수업·녹음 전에 마이크·스피커·카메라를 점검할 때</b>
+      <span class="d">마이크 소리 크기 막대와 5초 녹음 듣기, 이어폰 왼쪽·오른쪽 확인, 웹캠 해상도와 fps 까지 한 화면에서 봅니다.</span></li>
+    <li><b>중고로 팔기 전·A/S 맡기기 전에 상태를 남겨 둘 때</b>
+      <span class="d">오른쪽 <b>점검 결과</b>를 글로 복사하거나 이미지로 저장해 거래 글·문의에 붙이면 됩니다.</span></li>
+  </ul>
+</section>
+
+<section class="card">
+  <h2><span>증상별로 보는 법</span></h2>
+  <div class="tbl xtbl">
+    <table>
+      <thead><tr><th>증상</th><th>여기서 보는 곳</th><th>이렇게 나오면</th><th>해 볼 것</th></tr></thead>
+      <tbody>
+        <tr><td><b>글자가 두 번 찍힘</b></td><td>키보드 → 같은 키를 천천히 20번</td><td>빨간 테두리 · 채터링 의심</td><td>키캡을 빼고 먼지 청소, 무선이면 배터리·수신기 거리 확인. 계속되면 스위치 교체나 A/S</td></tr>
+        <tr><td><b>어떤 키가 안 눌림</b></td><td>키보드 → 그 키 누르기</td><td>그 키만 흰색 그대로</td><td>다른 USB 포트에 꽂기, 키캡 밑 이물질 확인. 노트북은 Fn 잠금·기능키 설정 확인</td></tr>
+        <tr><td><b>여러 키를 같이 누르면 씹힘</b></td><td>키보드 → 동시 입력 확인</td><td>조합이 초록으로 안 바뀜</td><td>키보드의 동시 입력 사양 확인. 게임용은 6키 이상·전 키 동시 입력 제품</td></tr>
+        <tr><td><b>한 번 클릭했는데 두 번</b></td><td>마우스 → 천천히 한 번씩</td><td>두 번 눌림 의심이 올라감</td><td>마우스 스위치 수명·접점 문제인 경우가 많음. 보증 기간이면 A/S 먼저</td></tr>
+        <tr><td><b>휠을 내리는데 위로 튐</b></td><td>마우스 → 휠 굴리기</td><td>휠 역방향 튐이 올라감</td><td>휠 틈 먼지를 불어내기. 계속되면 휠 부품(엔코더) 문제</td></tr>
+        <tr><td><b>화면에 점이 보임</b></td><td>화면 → 불량화소</td><td>검정에서 밝은 점=휘점, 흰색에서 검은 점=암점</td><td>표시해 둔 좌표와 사진을 남기고 구매처의 교환 기준·기간 확인</td></tr>
+        <tr><td><b>144Hz 모니터인데 부드럽지 않음</b></td><td>화면 → 주사율</td><td>60 근처로 나옴</td><td>윈도우 설정 → 디스플레이 → 고급 디스플레이의 새로 고침 빈도, 케이블 종류·그래픽 드라이버 확인</td></tr>
+        <tr><td><b>상대가 내 목소리를 못 들음</b></td><td>소리 → 마이크</td><td>말해도 막대가 안 움직임</td><td>윈도우 설정 → 개인 정보 → 마이크 허용, 마이크 고르기에서 다른 장치 선택, 헤드셋 음소거 스위치</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="card">
+  <h2><span>자주 묻는 질문</span></h2>
+
+  <details class="faq">
+    <summary>키를 눌러도 자판 그림에 불이 안 들어와요</summary>
+    <p>먼저 <b>페이지를 한 번 클릭</b>해 초점을 가져오세요(주소창이나 다른 창을 누르면 키 신호가 그쪽으로 갑니다). 입력 칸에 커서가 있어도 테스트가 쉽니다.
+      그래도 특정 키만 안 된다면: <b>Fn</b> 은 키보드 안에서만 쓰이는 키라 컴퓨터로 신호가 오지 않고, <b>PrtSc</b> 는 뗄 때만 신호가 오며, 볼륨·재생 같은 멀티미디어 키는 운영체제가 먼저 가져가는 경우가 있습니다. 이런 키는 고장이 아니어도 반응이 없을 수 있습니다.</p>
+  </details>
+
+  <details class="faq">
+    <summary>채터링은 어떤 기준으로 판정하나요?</summary>
+    <p>키를 <b>뗀 순간부터 같은 키가 다시 눌릴 때까지</b>의 시간을 잽니다. 사람이 같은 손가락으로 아무리 빨리 두드려도 보통 50~60ms 이상 걸리는데, 접점이 튀는 채터링은 수 ms 안에 한 번 더 들어옵니다. 그래서 기본 기준을 <b>40ms</b>로 두었고, 20·60·80ms로 바꿀 수 있습니다.
+      가끔만 생기는 채터링은 짧은 테스트에서 안 나올 수 있으니, 의심 가는 키를 천천히 여러 번 눌러 보세요.</p>
+  </details>
+
+  <details class="faq">
+    <summary>한/영 키가 Alt로, 한자 키가 Ctrl로 잡혀요</summary>
+    <p>윈도우의 키보드 종류 설정이나 키보드 제품에 따라 한/영 키가 <b>오른쪽 Alt 신호</b>로, 한자 키가 <b>오른쪽 Ctrl 신호</b>로 들어오는 경우가 많습니다. 둘 다 정상입니다.
+      이 도구는 어느 쪽으로 들어와도 자판 그림의 <b>한/영·한자 자리</b>에 표시합니다. 입력 기록에는 실제로 들어온 신호 이름이 함께 남습니다.</p>
+  </details>
+
+  <details class="faq">
+    <summary>동시 입력은 몇 키면 정상인가요?</summary>
+    <p>정해진 기준은 없습니다. 사무용·노트북 키보드는 <b>2~3키 조합에서 막히는 경우</b>가 흔하고, 게임용은 보통 6키 이상 또는 전 키 동시 입력을 내세웁니다. 막히는 조합은 키보드마다 달라서, <b>내가 실제로 쓰는 조합</b>을 눌러 보는 것이 가장 정확합니다.
+      운영체제나 연결 방식에 따라 브라우저에 보이는 수가 실제보다 적게 나올 수도 있습니다.</p>
+  </details>
+
+  <details class="faq">
+    <summary>마우스 폴링레이트는 정확한가요?</summary>
+    <p>크롬·엣지에서 마우스가 보내는 움직임 신호의 <b>간격</b>으로 추정한 값입니다. 천천히 움직이면 낮게 나오니 점선 상자 안에서 <b>원을 그리며 빠르게</b> 움직여 보세요. 125·250·500·1000Hz 처럼 설정값 근처로 나오면 정상입니다.
+      파이어폭스·사파리는 움직임 신호를 화면 주사율에 맞춰 묶어 보내서 잴 수 없습니다.</p>
+  </details>
+
+  <details class="faq">
+    <summary>불량화소가 몇 개면 교환이 되나요?</summary>
+    <p>법으로 정해진 개수는 없고 <b>판매처·제조사의 정책</b>(무결점 보증 여부, 교환 기간, 휘점·암점 구분)에 따라 다릅니다. 찾았다면 <b>표시해 둔 좌표와 사진·동영상</b>을 남기고 구매처에 먼저 물어보세요.
+      인터넷에 도는 「깜빡이는 화면으로 불량화소 고치기」는 효과가 확실하지 않고 빠른 깜빡임이 눈에 부담이 될 수 있어 이 도구에는 넣지 않았습니다.</p>
+  </details>
+
+  <details class="faq">
+    <summary>144Hz 모니터인데 60Hz로 나와요</summary>
+    <p>윈도우 <b>설정 → 시스템 → 디스플레이 → 고급 디스플레이</b>에서 새로 고침 빈도가 60Hz로 되어 있는지 보세요. 케이블 종류·버전에 따라 높은 주사율이 안 나오기도 합니다.
+      노트북이 <b>배터리 절약 모드</b>이거나 브라우저 절전 기능이 켜져 있으면 브라우저가 스스로 60Hz로 낮추기도 하고, 모니터가 여러 대면 창이 있는 화면이 아닌 다른 화면 기준으로 잴 수 있습니다.</p>
+  </details>
+
+  <details class="faq">
+    <summary>마이크·카메라를 허용했는데 안 나와요</summary>
+    <p>주소창 왼쪽의 <b>자물쇠(사이트 설정)</b>에서 마이크·카메라가 허용인지 보고, 윈도우 <b>설정 → 개인 정보 및 보안 → 마이크(카메라)</b>에서 앱 접근이 켜져 있는지 확인하세요. 화상 회의·메신저 같은 다른 프로그램이 카메라를 쓰고 있으면 켜지지 않습니다.
+      네이버·카카오톡 앱 안에서 연 화면은 마이크·카메라를 막는 경우가 많으니 크롬·사파리에서 열어 주세요.</p>
+  </details>
+
+  <details class="faq">
+    <summary>누른 키·녹음·카메라 영상은 어디에 저장되나요?</summary>
+    <p>모두 <b>이 브라우저 안에서만</b> 처리하고 서버로 보내지 않습니다. 녹음은 페이지를 닫으면 사라지고, 카메라 영상은 저장하지 않습니다. 이 브라우저에 남는 것은 자판 모양·기준 시간 같은 설정과 CPS 최고 기록뿐입니다.</p>
+  </details>
+
+  <details class="faq">
+    <summary>휴대폰에서도 되나요?</summary>
+    <p><b>화면(불량화소·주사율·터치)</b>과 <b>스피커·마이크·카메라</b>는 휴대폰에서 그대로 됩니다. 키보드 테스트는 블루투스·USB 키보드를 연결했을 때만 쓸 수 있고, 화면 자판은 키 신호를 제대로 보내지 않아 맞지 않습니다.
+      아이폰은 웹페이지를 전체 화면으로 띄우는 기능이 없어 위아래 막대가 남으니, <b>가로로 돌리거나</b> 화면을 조금 내려 주소창을 줄인 뒤 보세요.</p>
+  </details>
+</section>
+
+<!-- ══ 주의 문구 ══ -->
+<div class="nbx">
+  <div class="nbx-h"><span class="ic">!</span><span>쓰기 전에 확인하세요</span></div>
+  <ul>
+    <li><b>결과는 브라우저가 받은 신호로 판단한 참고용입니다.</b> Fn 처럼 키보드 안에서 처리되는 키, 운영체제·브라우저가 먼저 가져가는 키는 멀쩡해도 반응이 없을 수 있고, 무선 기기는 수신 상태·배터리에 따라 결과가 달라집니다.</li>
+    <li><b>채터링·두 번 눌림 판정은 시간 기준으로 추정한 것입니다.</b> 아주 빠르게 연타하면 멀쩡한 키도 걸릴 수 있고, 가끔만 생기는 고장은 짧은 테스트에서 드러나지 않을 수 있습니다.</li>
+    <li><b>불량화소·빛샘·잔상은 눈으로 판단합니다.</b> 교환·환불·A/S 여부는 제조사와 판매처의 기준을 따르며, 이 도구의 결과가 그 판단을 대신하지 않습니다.</li>
+    <li><b>소리는 작게 시작하세요.</b> 특히 이어폰으로 훑기(저음→고음)를 들을 때 귀에 무리가 가지 않게 하세요. 빛에 민감한 분은 밝은 색 화면을 빠르게 넘기지 마세요(화면이 저절로 깜빡이지는 않습니다).</li>
+    <li>녹음과 카메라 영상은 기기 안에서만 쓰이며, 점검 결과 이미지·글에도 기기 이름은 넣지 않습니다.</li>
+  </ul>
+  <p class="nbx-f">이 도구는 <b>있는 그대로 제공되며</b>, 결과를 믿고 한 구매·거래·수리 결정이나 테스트 중 생긴 어떠한 손해에 대해서도 <b>제작자와 운영자는 법적 책임을 지지 않습니다.</b></p>
+</div>
+
+<footer>
+  <b>키보드 테스트</b> · 설치 없이 브라우저에서<br>
+  키·마우스 신호는 브라우저 입력 이벤트로 · 소리는 Web Audio 로 직접 합성 · 외부 라이브러리 없음<br>
+  누른 키·녹음·영상은 어디에도 전송되지 않으며, 페이지를 연 뒤에는 인터넷 없이도 동작합니다.
+</footer>
+</div>
+
+<!-- 마이크·카메라가 막히는 곳에서 띄우는 창.
+     · 네이버·카카오 앱 안(WebView): 켜려 할 때 먼저 띄운다 — 권한 창 없이 조용히 실패하는 일이 많다
+     · 블로그 글 안에 끼운 화면(iframe)에서 막혀 있을 때: 새 창으로 옮기게 한다
+     키보드·마우스·화면 테스트는 어디서나 되므로 페이지를 처음부터 막지는 않는다 -->
+<div class="iamodal" id="iaModal" role="dialog" aria-modal="true" aria-labelledby="iaTitle">
+  <div class="iasheet">
+    <div class="iaic" id="iaIc">🎤</div>
+    <h2 id="iaTitle">앱 안에서는 마이크가 막힐 수 있습니다</h2>
+    <p class="iap" id="iaDesc"></p>
+    <ol class="iasteps" id="iaSteps"></ol>
+    <button class="iabtn" id="iaGo2" type="button">크롬에서 열기</button>
+    <p class="iafine"><button type="button" id="iaStay">여기서 그냥 해 볼게요</button></p>
+  </div>
+</div>
+
+<!-- 전체 화면 테스트(불량화소 색 화면 · 터치) -->
+<div id="fs" aria-hidden="true">
+  <canvas id="fsCv"></canvas>
+  <div id="fsHint"></div>
+  <button id="fsX" type="button">✕ 끝내기</button>
+  <div id="fsBar"><span id="fsBarTx">0% 칠함 · 동시 0손가락</span><button type="button" id="fsBarMv">⇅ 옮기기</button><button type="button" class="end" id="fsBarEnd">끝내기</button></div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+"use strict";
+/* ════════════════════════════════════════════════════════════
+   키보드 테스트 — 라이브러리 없이 순수 JS
+
+   [키보드]
+     KeyboardEvent.code(자판 위 물리적 자리)로 키를 가린다. key 는 한글 입력기가 켜져 있으면
+     「Process」로 바뀌고 Shift 에 따라 달라지지만 code 는 자리마다 고정이다.
+     한/영·한자 키는 키보드 종류 설정에 따라 AltRight/ControlRight 또는 Lang1/Lang2 로 온다 → 한 자리로 모은다.
+     채터링 = 같은 키를 뗀 뒤 기준 시간(기본 40ms) 안에 다시 눌림. 자동 반복(repeat)은 세지 않는다.
+   [마우스]
+     mousedown/mouseup 의 button(0~4)로 단추를 가리고, 뗀 뒤 다시 눌리기까지의 간격으로 두 번 눌림을 센다.
+     폴링레이트는 pointerrawupdate(없으면 getCoalescedEvents) 의 시간 간격 중앙값으로 추정한다.
+   [화면]
+     주사율은 requestAnimationFrame 간격의 중앙값, 불량화소·터치는 전체 화면 덮개(#fs)에서.
+   [소리]
+     좌우 확인음·훑기는 Web Audio 로 합성, 마이크는 AnalyserNode, 녹음은 MediaRecorder.
+   ════════════════════════════════════════════════════════════ */
+
+/* ── 짧은 도우미 ───────────────────────────────────────── */
+const $ = id => document.getElementById(id);
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const pad = n => (n < 10 ? '0' : '') + n;
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+const perf = () => performance.now();
+let toastT = 0;
+function toast(msg, ms){
+  const t = $('toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), ms || 2800);
+}
+function onScreen(el, m){
+  if (!el || el.classList.contains('hide')) return false;
+  const r = el.getBoundingClientRect(), k = m || 0;
+  return r.height > 0 && r.bottom > k && r.top < window.innerHeight - k;
+}
+const UA = navigator.userAgent || '';
+const IS_IOS = /iPhone|iPad|iPod/i.test(UA) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const TOUCH_ONLY = window.matchMedia('(hover:none) and (pointer:coarse)').matches;
+const IN_FRAME = window.top !== window.self;
+const WD = ['일', '월', '화', '수', '목', '금', '토'];
+function stamp(d){ d = d || new Date(); return d.getFullYear() + '.' + pad(d.getMonth() + 1) + '.' + pad(d.getDate()) + ' (' + WD[d.getDay()] + ') ' + pad(d.getHours()) + ':' + pad(d.getMinutes()); }
+
+/* ── 설정(이 브라우저에만) ─────────────────────────────── */
+const KEY = 'keyboard_test_v1';
+const DEF = {tab: '', layout: 'full', kthr: 40, mthr: 30, cpsDur: 5, vol: 40, cpsBest: {}, no: {}, ns: true, mirror: true, camRes: 'max'};
+const S = Object.assign({}, DEF);
+try {
+  const o = JSON.parse(localStorage.getItem(KEY) || 'null');
+  if (o && typeof o === 'object') Object.keys(DEF).forEach(k => { if (k in o) S[k] = o[k]; });
+} catch (e) { /* 무시 */ }
+if (['full', 'tkl', 'laptop'].indexOf(S.layout) < 0) S.layout = 'full';
+if ([20, 40, 60, 80].indexOf(+S.kthr) < 0) S.kthr = 40;
+if ([20, 30, 50, 80].indexOf(+S.mthr) < 0) S.mthr = 30;
+if ([1, 5, 10].indexOf(+S.cpsDur) < 0) S.cpsDur = 5;
+if (['max', '1080', '720', '480'].indexOf(S.camRes) < 0) S.camRes = 'max';
+S.vol = clamp(+S.vol || 40, 5, 100);
+if (!S.cpsBest || typeof S.cpsBest !== 'object') S.cpsBest = {};
+if (!S.no || typeof S.no !== 'object') S.no = {};
+let saveT = 0;
+function save(){ clearTimeout(saveT); saveT = setTimeout(() => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* 무시 */ } }, 150); }
+
+/* ════════════════════════════════════════════════════════════
+   키보드 자판 — 단위(u) 좌표. 한 칸이 1u, 키 크기는 칸 폭에 맞춰 --u 로 정한다
+   ════════════════════════════════════════════════════════════ */
+const LET = 'QWERTYUIOPASDFGHJKLZXCVBNM', HAN = 'ㅂㅈㄷㄱㅅㅛㅕㅑㅐㅔㅁㄴㅇㄹㅎㅗㅓㅏㅣㅋㅌㅊㅍㅠㅜㅡ';
+function X(c, b, w, o){ return Object.assign({c: c, b: b, w: w || 1}, o || {}); }
+function L(ch){ return X('Key' + ch, ch, 1, {h: HAN[LET.indexOf(ch)], n: ch + '(' + HAN[LET.indexOf(ch)] + ')'}); }
+function D(n, t){ return X('Digit' + n, String(n), 1, {t: t}); }
+function F(n){ return X('F' + n, 'F' + n); }
+const ROW_NUM = () => [X('Backquote', '`', 1, {t: '~'}), D(1, '!'), D(2, '@'), D(3, '#'), D(4, '$'), D(5, '%'), D(6, '^'), D(7, '&'), D(8, '*'), D(9, '('), D(0, ')'),
+  X('Minus', '-', 1, {t: '_'}), X('Equal', '=', 1, {t: '+'}), X('Backspace', 'Backspace', 2, {n: 'Backspace'})];
+const ROW_Q = () => [X('Tab', 'Tab', 1.5), ...'QWERTYUIOP'.split('').map(L), X('BracketLeft', '[', 1, {t: '{'}), X('BracketRight', ']', 1, {t: '}'}), X('Backslash', '₩', 1.5, {t: '|', n: '₩ (\\)'})];
+const ROW_A = () => [X('CapsLock', 'Caps Lock', 1.75), ...'ASDFGHJKL'.split('').map(L), X('Semicolon', ';', 1, {t: ':'}), X('Quote', "'", 1, {t: '"'}), X('Enter', 'Enter', 2.25)];
+const ZM = () => 'ZXCVBNM'.split('').map(L).concat([X('Comma', ',', 1, {t: '<'}), X('Period', '.', 1, {t: '>'}), X('Slash', '/', 1, {t: '?'})]);
+function place(items, x, y, h){
+  const out = [];
+  items.forEach(it => {
+    if (typeof it === 'number') { x += it; return; }
+    out.push(Object.assign({x: x, y: y, hh: it.hh || h || 1}, it));
+    x += it.w || 1;
+  });
+  return out;
+}
+function buildLayout(id){
+  let k = [], W, H;
+  if (id === 'laptop') {
+    const fr = [X('Escape', 'Esc')];
+    for (let i = 1; i <= 12; i++) fr.push(F(i));
+    fr.push(X('PrintScreen', 'PrtSc'), X('Delete', 'Del'));
+    k = k.concat(place(fr, 0, 0, .8),
+      place(ROW_NUM(), 0, 1), place(ROW_Q(), 0, 2), place(ROW_A(), 0, 3),
+      place([X('ShiftLeft', 'Shift', 2, {n: '왼쪽 Shift'})].concat(ZM(), [X('ShiftRight', 'Shift', 1, {n: '오른쪽 Shift'}), X('ArrowUp', '↑', 1, {n: '위쪽 방향키'})]), 0, 4),
+      place([X('ControlLeft', 'Ctrl', 1.25, {n: '왼쪽 Ctrl'}), X('Fn', 'Fn', 1, {na: 1, t: '감지 불가'}), X('MetaLeft', 'Win', 1, {n: '왼쪽 Win'}), X('AltLeft', 'Alt', 1, {n: '왼쪽 Alt'}),
+        X('Space', 'Space', 5, {n: '스페이스'}), X('AltRight', '한/영', 1.25, {t: 'Alt', n: '한/영 (오른쪽 Alt)'}), X('ControlRight', '한자', 1.25, {t: 'Ctrl', n: '한자 (오른쪽 Ctrl)'}), .25,
+        X('ArrowLeft', '←', 1, {n: '왼쪽 방향키'}), X('ArrowDown', '↓', 1, {n: '아래쪽 방향키'}), X('ArrowRight', '→', 1, {n: '오른쪽 방향키'})], 0, 5));
+    W = 15; H = 6;
+  } else {
+    const fr = [X('Escape', 'Esc'), 1, F(1), F(2), F(3), F(4), .5, F(5), F(6), F(7), F(8), .5, F(9), F(10), F(11), F(12)];
+    const y = 1.25;
+    k = k.concat(place(fr, 0, 0),
+      place([X('PrintScreen', 'PrtSc'), X('ScrollLock', 'ScrLk', 1, {n: 'Scroll Lock'}), X('Pause', 'Pause')], 15.25, 0),
+      place(ROW_NUM(), 0, y), place(ROW_Q(), 0, y + 1), place(ROW_A(), 0, y + 2),
+      place([X('ShiftLeft', 'Shift', 2.25, {n: '왼쪽 Shift'})].concat(ZM(), [X('ShiftRight', 'Shift', 2.75, {n: '오른쪽 Shift'})]), 0, y + 3),
+      place([X('ControlLeft', 'Ctrl', 1.25, {n: '왼쪽 Ctrl'}), X('MetaLeft', 'Win', 1.25, {n: '왼쪽 Win'}), X('AltLeft', 'Alt', 1.25, {n: '왼쪽 Alt'}), X('Space', 'Space', 6.25, {n: '스페이스'}),
+        X('AltRight', '한/영', 1.25, {t: 'Alt', n: '한/영 (오른쪽 Alt)'}), X('MetaRight', 'Win', 1.25, {n: '오른쪽 Win'}), X('ContextMenu', '≣', 1.25, {n: '메뉴 키'}),
+        X('ControlRight', '한자', 1.25, {t: 'Ctrl', n: '한자 (오른쪽 Ctrl)'})], 0, y + 4),
+      place([X('Insert', 'Ins', 1, {n: 'Insert'}), X('Home', 'Home'), X('PageUp', 'PgUp', 1, {n: 'Page Up'})], 15.25, y),
+      place([X('Delete', 'Del', 1, {n: 'Delete'}), X('End', 'End'), X('PageDown', 'PgDn', 1, {n: 'Page Down'})], 15.25, y + 1),
+      place([X('ArrowUp', '↑', 1, {n: '위쪽 방향키'})], 16.25, y + 3),
+      place([X('ArrowLeft', '←', 1, {n: '왼쪽 방향키'}), X('ArrowDown', '↓', 1, {n: '아래쪽 방향키'}), X('ArrowRight', '→', 1, {n: '오른쪽 방향키'})], 15.25, y + 4));
+    W = 18.25; H = 6.25;
+    if (id === 'full') {
+      const nx = 18.5;
+      k = k.concat(
+        place([X('NumLock', 'Num', 1, {n: 'Num Lock'}), X('NumpadDivide', '/', 1, {n: '키패드 /'}), X('NumpadMultiply', '*', 1, {n: '키패드 *'}), X('NumpadSubtract', '-', 1, {n: '키패드 -'})], nx, y),
+        place([X('Numpad7', '7', 1, {t: 'Home', n: '키패드 7'}), X('Numpad8', '8', 1, {t: '↑', n: '키패드 8'}), X('Numpad9', '9', 1, {t: 'PgUp', n: '키패드 9'}), X('NumpadAdd', '+', 1, {hh: 2, n: '키패드 +'})], nx, y + 1),
+        place([X('Numpad4', '4', 1, {t: '←', n: '키패드 4'}), X('Numpad5', '5', 1, {n: '키패드 5'}), X('Numpad6', '6', 1, {t: '→', n: '키패드 6'})], nx, y + 2),
+        place([X('Numpad1', '1', 1, {t: 'End', n: '키패드 1'}), X('Numpad2', '2', 1, {t: '↓', n: '키패드 2'}), X('Numpad3', '3', 1, {t: 'PgDn', n: '키패드 3'}), X('NumpadEnter', 'Enter', 1, {hh: 2, n: '키패드 Enter'})], nx, y + 3),
+        place([X('Numpad0', '0', 2, {t: 'Ins', n: '키패드 0'}), X('NumpadDecimal', '.', 1, {t: 'Del', n: '키패드 .'})], nx, y + 4));
+      W = 22.5;
+    }
+  }
+  const map = {};
+  k.forEach(o => { map[o.c] = o; });
+  return {id: id, keys: k, map: map, W: W, H: H};
+}
+/* 같은 자리로 모으는 신호: 한/영·한자(106키 설정), 옛 파이어폭스의 OS 키 */
+const ALIAS = {Lang1: 'AltRight', Lang2: 'ControlRight', OSLeft: 'MetaLeft', OSRight: 'MetaRight', HangulMode: 'AltRight', HanjaMode: 'ControlRight'};
+/* 자판 그림에 없는 키의 이름 */
+const XNAME = {AudioVolumeUp: '볼륨 크게', AudioVolumeDown: '볼륨 작게', AudioVolumeMute: '음소거', VolumeUp: '볼륨 크게', VolumeDown: '볼륨 작게', VolumeMute: '음소거',
+  MediaPlayPause: '재생/일시정지', MediaTrackNext: '다음 곡', MediaTrackPrevious: '이전 곡', MediaStop: '정지', LaunchMail: '메일', LaunchApp1: '내 컴퓨터', LaunchApp2: '계산기',
+  BrowserHome: '웹 홈', BrowserSearch: '웹 검색', BrowserBack: '웹 뒤로', BrowserForward: '웹 앞으로', BrowserRefresh: '웹 새로 고침', BrowserFavorites: '즐겨찾기',
+  Home: 'Home', End: 'End', PageUp: 'Page Up', PageDown: 'Page Down', Insert: 'Insert', ScrollLock: 'Scroll Lock', Pause: 'Pause', NumLock: 'Num Lock',
+  NumpadEqual: '키패드 =', IntlBackslash: '＼', IntlYen: '￥', IntlRo: 'Ro', Power: '전원', Sleep: '절전', WakeUp: '깨우기', Help: 'Help', F13: 'F13', F14: 'F14', F15: 'F15',
+  ContextMenu: '메뉴 키', MetaRight: '오른쪽 Win', PrintScreen: 'PrtSc'};
+
+const KB = {
+  lay: null, down: new Map(), lastUp: {}, tested: {}, chat: {}, chatN: 0, max: 0, log: [], extra: {}, combo: {}, done: false,
+  paused: false, edit: false, rep: 0, focus: true, last: ''
+};
+const COMBOS = [
+  {id: 'wasd', n: 'W · A · S · D 네 키', k: ['KeyW', 'KeyA', 'KeyS', 'KeyD']},
+  {id: 'move', n: '왼쪽 Shift + W + D + 스페이스', k: ['ShiftLeft', 'KeyW', 'KeyD', 'Space']},
+  {id: 'five', n: 'Q · W · E · R · T 다섯 키', k: ['KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT']},
+  {id: 'six', n: 'A · S · D + J · K · L 여섯 키', k: ['KeyA', 'KeyS', 'KeyD', 'KeyJ', 'KeyK', 'KeyL']}
+];
+function capName(c){
+  const k = KB.lay && KB.lay.map[c];
+  if (k) return k.n || k.b;
+  const all = LAYS.full.map[c] || LAYS.laptop.map[c];
+  if (all) return all.n || all.b;
+  if (XNAME[c]) return XNAME[c];
+  if (c.indexOf('key:') === 0) return c.slice(4);
+  return c;
+}
+const LAYS = {full: buildLayout('full'), tkl: buildLayout('tkl'), laptop: buildLayout('laptop')};
+function noMap(){ return S.no[S.layout] || (S.no[S.layout] = {}); }
+function countable(k){ return !k.na && !noMap()[k.c]; }
+
+function renderKb(){
+  KB.lay = LAYS[S.layout];
+  const kb = $('kb');
+  kb.querySelectorAll('.k').forEach(n => n.remove());
+  const frag = document.createDocumentFragment();
+  KB.lay.keys.forEach(k => {
+    const d = document.createElement('div');
+    d.className = 'k' + (k.na ? ' na' : '');
+    d.dataset.c = k.c;
+    d.style.cssText = '--x:' + k.x + ';--y:' + k.y + ';--w:' + k.w + ';--h:' + k.hh;
+    d.title = (k.n || k.b) + (k.na ? ' — 키보드 안에서 처리되어 감지할 수 없음' : ' · ' + k.c);
+    d.innerHTML = (k.t ? '<i class="t">' + esc(k.t) + '</i>' : '') + (k.h ? '<i class="h">' + k.h + '</i>' : '') + '<b>' + esc(k.b) + '</b>';
+    frag.appendChild(d);
+  });
+  kb.appendChild(frag);
+  fitKb();
+  KB.lay.keys.forEach(k => paintKey(k.c));
+  kbStats();
+}
+function fitKb(){
+  const box = $('kbBox'), kb = $('kb');
+  if (!KB.lay || !box.clientWidth) return;
+  const avail = box.clientWidth - 6;
+  const u = clamp(Math.floor(avail / KB.lay.W), 22, 46);
+  kb.style.setProperty('--u', u + 'px');
+  kb.style.width = Math.round(KB.lay.W * u) + 'px';
+  kb.style.height = Math.round(KB.lay.H * u) + 'px';
+  kb.classList.toggle('sm', u < 30);
+}
+function keyEl(c){ return $('kb').querySelector('.k[data-c="' + c + '"]'); }
+function paintKey(c){
+  const el = keyEl(c);
+  if (!el) return;
+  const k = KB.lay.map[c];
+  el.classList.toggle('dn', KB.down.has(c));
+  el.classList.toggle('ok', !!KB.tested[c]);
+  el.classList.toggle('bad', !!KB.chat[c]);
+  el.classList.toggle('no', !!(k && !k.na && noMap()[c]));
+  let em = el.querySelector('em');
+  if (KB.chat[c]) {
+    if (!em) { em = document.createElement('em'); el.appendChild(em); }
+    em.textContent = KB.chat[c];
+  } else if (em) em.remove();
+}
+
+/* 테스트가 키를 받을 때 — 키보드 탭이 열려 있고, 키보드 카드가 화면에 보이고, 입력 칸에 커서가 없을 때 */
+function editable(t){ return !!(t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable)); }
+function kbListening(){ return S.tab === 'kbd' && !KB.paused && !FS.on && !document.body.classList.contains('ia-lock') && onScreen($('pKbd'), 40); }
+function capOf(e){
+  let c = e.code || '';
+  if (ALIAS[c]) c = ALIAS[c];
+  if (!c || (!LAYS.full.map[c] && !LAYS.laptop.map[c])) {
+    if (e.key === 'HangulMode') c = 'AltRight';
+    else if (e.key === 'HanjaMode') c = 'ControlRight';
+  }
+  return c || ('key:' + (e.key || '?'));
+}
+/* 키업이 안 올 수 있는 키 — 한/영·한자(윈도우), PrtSc(뗄 때만 옴) */
+function noUpKey(e){ return e.code === 'Lang1' || e.code === 'Lang2' || e.key === 'HangulMode' || e.key === 'HanjaMode' || e.key === 'Process' && !e.code; }
+
+function onKeyDown(e){
+  if (FS.on) { fsKey(e); return; }
+  if (!kbListening() || editable(e.target)) return;
+  e.preventDefault();
+  const c = capOf(e), t = e.timeStamp || perf();
+  KB.last = c;
+  if (e.repeat) {
+    KB.rep++;
+    const top = KB.log[0];
+    if (top && top.c === c && top.type === 'rep') top.n++;
+    else addLog({c: c, type: 'rep', n: 1, code: e.code, key: e.key});
+    if (!KB.tested[c]) markTested(c);
+    logUI(); kbStats();
+    return;
+  }
+  let gap = null, bad = false;
+  if (KB.lastUp[c] != null && !KB.down.has(c)) {
+    gap = t - KB.lastUp[c];
+    if (gap >= 0 && gap < S.kthr && !noUpKey(e)) {
+      bad = true;
+      KB.chat[c] = (KB.chat[c] || 0) + 1; KB.chatN++;
+    }
+  }
+  KB.down.set(c, {t: t});
+  if (noUpKey(e)) {
+    /* 키업이 안 오면 0.25초 뒤 뗀 것으로 친다 */
+    setTimeout(() => { const d = KB.down.get(c); if (d && d.t === t) { KB.down.delete(c); KB.lastUp[c] = null; paintKey(c); downUI(); } }, 250);
+  }
+  KB.max = Math.max(KB.max, KB.down.size);
+  markTested(c);
+  checkCombos();
+  addLog({c: c, type: 'down', gap: gap, bad: bad, code: e.code, key: e.key});
+  if (bad) toast(capName(c) + ' 키가 뗀 뒤 ' + Math.round(gap) + 'ms 만에 다시 눌렸어요 — 채터링 의심', 2600);
+  paintKey(c); downUI(); logUI(); kbStats();
+}
+function onKeyUp(e){
+  if (FS.on) return;
+  const c = capOf(e), t = e.timeStamp || perf();
+  const d = KB.down.get(c);
+  if (!kbListening() || editable(e.target)) {
+    if (d) { KB.down.delete(c); paintKey(c); downUI(); }
+    return;
+  }
+  e.preventDefault();
+  let dur = null;
+  if (d) { dur = t - d.t; KB.down.delete(c); }
+  else if (!KB.tested[c]) {
+    /* PrtSc 처럼 뗄 때만 오는 키 — 잠깐 눌린 모습만 보여 준다 */
+    const el = keyEl(c);
+    if (el) { el.classList.add('dn'); setTimeout(() => paintKey(c), 140); }
+  }
+  KB.lastUp[c] = t;
+  markTested(c);
+  const top = KB.log[0];
+  if (top && top.c === c && top.type === 'down' && top.dur == null) top.dur = dur;
+  else addLog({c: c, type: 'up', dur: dur, code: e.code, key: e.key});
+  paintKey(c); downUI(); logUI(); kbStats();
+}
+function markTested(c){
+  /* 지금 자판 그림에 없는 키(노트북의 Home·End, 멀티미디어 키)는 「자판 그림에 없는 키」 칸에 따로 보인다.
+     다른 자판에는 있는 키면 확인 표시도 남겨 둔다 — 자판을 바꿔도 이어서 보이게 */
+  if (!KB.lay.map[c] && !KB.extra[c]) { KB.extra[c] = 1; extraUI(); }
+  if ((LAYS.full.map[c] || LAYS.laptop.map[c]) && !KB.tested[c]) { KB.tested[c] = 1; paintKey(c); }
+}
+function releaseAll(){
+  if (!KB.down.size) return;
+  const cs = Array.from(KB.down.keys());
+  KB.down.clear();
+  cs.forEach(paintKey); downUI();
+}
+function addLog(o){
+  KB.log.unshift(o);
+  if (KB.log.length > 40) KB.log.length = 40;
+}
+function ms(v){ return v == null ? '—' : (v < 10 ? v.toFixed(1) : Math.round(v)) + 'ms'; }
+let logRaf = 0;
+function logUI(){
+  if (logRaf) return;
+  logRaf = requestAnimationFrame(() => {
+    logRaf = 0;
+    const rows = KB.log.slice(0, 10);
+    $('kLog').innerHTML = rows.length ? rows.map(o => {
+      const nm = esc(capName(o.c));
+      const sig = '<i>' + esc(o.code || '—') + (o.key && o.key !== o.code ? ' · key ' + esc(o.key === ' ' ? 'Space' : o.key) : '') + '</i>';
+      if (o.type === 'rep') return '<tr><td><b>' + nm + '</b>' + sig + '</td><td>누르고 있음 · 자동 반복 ' + o.n + '번</td><td class="num">—</td><td class="num">—</td></tr>';
+      const act = o.type === 'down' ? (o.bad ? '다시 눌림 · <b>채터링 의심</b>' : '누름 → 뗌') : '뗌';
+      return '<tr' + (o.bad ? ' class="bad"' : '') + '><td><b>' + nm + '</b>' + sig + '</td><td>' + act + '</td><td class="num">' + ms(o.dur) + '</td><td class="num">' + ms(o.gap) + '</td></tr>';
+    }).join('') : '<tr class="empty"><td colspan="4">아직 누른 키가 없습니다</td></tr>';
+    $('kRep').textContent = KB.rep ? '자동 반복 ' + KB.rep + '번(채터링 아님)' : '';
+  });
+}
+function downUI(){
+  const cs = Array.from(KB.down.keys());
+  $('kDown').innerHTML = cs.length ? cs.map(c => '<span class="chip dn">' + esc(capName(c)) + '</span>').join('') +
+    '<span class="chip">' + cs.length + '키 동시</span>' : '<span class="muted">키를 누르면 여기에 보입니다</span>';
+  $('kMax').innerHTML = KB.max + '<small>키</small>';
+  $('kLast').textContent = KB.last ? capName(KB.last) : '—';
+}
+function extraUI(){
+  const cs = Object.keys(KB.extra).filter(c => !KB.lay.map[c]);
+  $('kExtraRow').classList.toggle('hide', !cs.length);
+  $('kExtra').innerHTML = cs.map(c => '<span class="chip ok">' + esc(capName(c)) + '</span>').join('');
+}
+function checkCombos(){
+  COMBOS.forEach(o => {
+    const n = o.k.filter(c => KB.down.has(c)).length;
+    const st = KB.combo[o.id] || (KB.combo[o.id] = {best: 0, ok: false});
+    if (n > st.best) st.best = n;
+    if (n === o.k.length && !st.ok) { st.ok = true; toast(o.n + ' — 한꺼번에 모두 들어왔어요'); }
+  });
+  comboUI();
+}
+function comboUI(){
+  $('combos').innerHTML = COMBOS.map(o => {
+    const st = KB.combo[o.id] || {best: 0, ok: false};
+    return '<div class="combo' + (st.ok ? ' ok' : '') + '"><span class="ck">' + (st.ok ? '✓' : '') + '</span><span class="nm">' + o.n + '</span>' +
+      '<span class="pr">' + (st.ok ? '모두 들어옴' : st.best ? st.best + ' / ' + o.k.length + '키까지' : '누르고 있기') + '</span></div>';
+  }).join('');
+}
+function kbTotals(){
+  const keys = KB.lay.keys.filter(countable);
+  return {tot: keys.length, cnt: keys.filter(k => KB.tested[k.c]).length};
+}
+let statRaf = 0;
+function kbStats(){
+  if (statRaf) return;
+  statRaf = requestAnimationFrame(() => {
+    statRaf = 0;
+    const t = kbTotals();
+    $('kCnt').textContent = t.cnt;
+    $('kTot').textContent = '/' + t.tot;
+    $('kBar').style.width = (t.tot ? t.cnt / t.tot * 100 : 0).toFixed(1) + '%';
+    $('kbTotHint').textContent = KB.lay.keys.filter(k => !k.na).length + '키' + (t.tot < KB.lay.keys.filter(k => !k.na).length ? ' · ' + (KB.lay.keys.filter(k => !k.na).length - t.tot) + '키 뺌' : '');
+    $('kChat').innerHTML = KB.chatN + '<small>회</small>';
+    $('kChatBox').classList.toggle('bad', KB.chatN > 0);
+    downUI();
+    if (t.tot && t.cnt === t.tot && !KB.done) {
+      KB.done = true;
+      const bad = Object.keys(KB.chat).filter(c => KB.chat[c]);
+      DONE.show('키보드의 모든 키가 들어옵니다',
+        t.tot + '개 키를 모두 확인했어요. 채터링 의심 ' + KB.chatN + '회' + (bad.length ? '(' + bad.map(capName).slice(0, 4).join(', ') + ')' : '') + ', 최대 동시 입력 ' + KB.max + '키입니다.',
+        [bad.length ? '빨간 테두리 키를 <b>천천히 한 번씩</b> 20번 더 눌러 다시 확인해 보세요.' : '글자가 두 번 찍히는 증상이 있었다면 그 키를 <b>천천히 여러 번</b> 눌러 보세요.',
+         '중고 거래·A/S 문의에는 <b>점검 결과 → 글로 복사</b>나 <b>이미지 저장</b>을 붙이면 됩니다.',
+         '마우스·모니터도 점검하려면 위의 <b>마우스</b>·<b>화면</b> 탭으로 넘어가세요.']);
+    }
+    sumUI();
+  });
+}
+function kbPill(){
+  const p = $('kbPill');
+  const ae = document.activeElement;
+  let cls = 'pill run', txt = '키 입력을 받는 중';
+  if (KB.paused) { cls = 'pill idle'; txt = '멈춤 — 키를 받지 않음'; }
+  else if (!KB.focus) { cls = 'pill off'; txt = '초점이 페이지 밖 — 여기를 누르세요'; }
+  else if (editable(ae)) { cls = 'pill idle'; txt = '입력 칸 사용 중 — 잠시 쉼'; }
+  p.className = cls; p.textContent = txt;
+  $('kbWrap').classList.toggle('off', !KB.focus && !KB.paused && S.tab === 'kbd');
+}
+function kbReset(){
+  KB.down.clear(); KB.lastUp = {}; KB.tested = {}; KB.chat = {}; KB.chatN = 0; KB.max = 0; KB.log = []; KB.extra = {}; KB.combo = {}; KB.done = false; KB.rep = 0; KB.last = '';
+  renderKb(); logUI(); comboUI(); extraUI(); downUI();
+}
+
+/* ════════════════════════════════════════════════════════════
+   마우스
+   ════════════════════════════════════════════════════════════ */
+const MBN = ['왼쪽', '휠 클릭', '오른쪽', '뒤로(옆 단추)', '앞으로(옆 단추)'];
+const MS = {b: [], wU: 0, wD: 0, wL: 0, wR: 0, rev: 0, wh: [], sideT: -1e9, touchT: -1e9, poll: {ts: [], hz: 0, max: 0, can: true}, used: false};
+function mReset(){
+  MS.b = MBN.map(() => ({n: 0, chat: 0, down: null, lastUp: null, dur: null}));
+  MS.wU = MS.wD = MS.wL = MS.wR = MS.rev = 0; MS.wh = []; MS.used = false;
+  MS.poll.max = 0;
+  for (let i = 0; i < 5; i++) { const p = $('mp' + i); p.classList.remove('ok', 'dn', 'bad'); }
+  ['mwU', 'mwD', 'mwL', 'mwR'].forEach(id => $(id).classList.remove('ok', 'dn'));
+  $('mLast').className = 'mlast';
+  $('mLast').innerHTML = '점선 상자 안에서 단추를 하나씩 눌러 보세요<small>왼쪽·오른쪽·휠 클릭·옆 단추(뒤로·앞으로)와 휠 굴리기</small>';
+  mUI();
+}
+function mUI(){
+  $('mTbody').innerHTML = MS.b.map((s, i) => '<tr' + (s.chat ? ' class="bad"' : '') + '><td><b>' + MBN[i] + '</b></td><td class="num">' + s.n + '</td><td class="num">' + (s.chat ? '<b>' + s.chat + '회</b>' : '0') + '</td><td class="num">' + ms(s.dur) + '</td></tr>').join('');
+  $('mWheel').innerHTML = '<span class="chip' + (MS.wU ? ' ok' : '') + '">휠 위로 ' + MS.wU + '</span><span class="chip' + (MS.wD ? ' ok' : '') + '">휠 아래로 ' + MS.wD + '</span>' +
+    '<span class="chip' + (MS.rev ? ' bad' : '') + '">역방향 튐 ' + MS.rev + '</span>' +
+    (MS.wL || MS.wR ? '<span class="chip ok">기울임 왼 ' + MS.wL + ' · 오 ' + MS.wR + '</span>' : '');
+  sumUI();
+}
+function mFlash(bad){
+  const p = $('mpad');
+  p.style.borderColor = bad ? 'var(--danger)' : 'var(--accent)';
+  clearTimeout(mFlash.t); mFlash.t = setTimeout(() => { p.style.borderColor = ''; }, bad ? 700 : 160);
+}
+function mDown(e){
+  if (e.button > 4 || e.button < 0) return;
+  if (perf() - MS.touchT < 900) return;              /* 터치 뒤 따라오는 흉내 마우스 신호는 버린다 */
+  e.preventDefault();
+  $('mpad').focus({preventScroll: true});
+  const i = e.button, s = MS.b[i], t = e.timeStamp || perf();
+  if (i >= 3) MS.sideT = perf();
+  let gap = null, bad = false;
+  if (s.lastUp != null) {
+    gap = t - s.lastUp;
+    if (gap >= 0 && gap < S.mthr && !CPS.run) { bad = true; s.chat++; }
+  }
+  s.n++; s.down = t; MS.used = true;
+  const p = $('mp' + i);
+  p.classList.add('dn', 'ok'); if (bad) p.classList.add('bad');
+  const L = $('mLast');
+  L.className = 'mlast' + (bad ? ' bad' : '');
+  L.innerHTML = MBN[i] + ' 단추 ' + (bad ? '— <b>두 번 눌림 의심</b>' : '누름') +
+    '<small>' + (gap != null ? '뗀 뒤 다시 누르기까지 ' + ms(gap) : '처음 누름') + (bad ? ' · 한 번 눌렀는데 두 번으로 잡혔을 수 있어요' : '') + '</small>';
+  mFlash(bad);
+  if (bad) toast(MBN[i] + ' 단추가 ' + Math.round(gap) + 'ms 만에 다시 눌렸어요 — 더블클릭 현상 의심', 2600);
+  mUI();
+}
+function mUp(e){
+  if (e.button > 4 || e.button < 0) return;
+  if (perf() - MS.touchT < 900) return;
+  e.preventDefault();
+  const i = e.button, s = MS.b[i], t = e.timeStamp || perf();
+  if (s.down != null) { s.dur = t - s.down; s.down = null; }
+  s.lastUp = t;
+  $('mp' + i).classList.remove('dn');
+  if (i >= 3) MS.sideT = perf();
+  mUI();
+}
+function mWheel(e){
+  e.preventDefault();
+  MS.used = true;
+  const t = e.timeStamp || perf();
+  if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && !e.shiftKey) {
+    if (e.deltaX < 0) MS.wL++; else MS.wR++;
+    const el = $(e.deltaX < 0 ? 'mwL' : 'mwR'); el.classList.add('ok', 'dn'); setTimeout(() => el.classList.remove('dn'), 120);
+    mUI(); return;
+  }
+  const dy = e.deltaY;
+  if (!dy) return;
+  const dir = dy > 0 ? 1 : -1;
+  const big = e.deltaMode !== 0 || Math.abs(dy) >= 40;        /* 마우스 휠 한 칸(터치패드의 잘게 쪼갠 값은 빼고) */
+  if (dir > 0) MS.wD++; else MS.wU++;
+  const el = $(dir > 0 ? 'mwD' : 'mwU'); el.classList.add('ok', 'dn'); setTimeout(() => el.classList.remove('dn'), 120);
+  /* 역방향 튐 — 한쪽으로 굴리는 흐름(앞 2칸·뒤 1칸이 같은 방향) 한가운데 반대 방향 한 칸이 끼면 */
+  MS.wh.push({d: dir, t: t, big: big});
+  if (MS.wh.length > 6) MS.wh.shift();
+  const w = MS.wh, n = w.length;
+  if (n >= 4) {
+    const a = w[n - 4], b = w[n - 3], c = w[n - 2], d = w[n - 1];
+    if (a.d === b.d && d.d === b.d && c.d !== b.d && c.big && (d.t - a.t) < 400) {
+      MS.rev++;
+      toast('휠을 ' + (b.d > 0 ? '아래로' : '위로') + ' 굴리는데 반대 방향이 한 번 섞였어요 — 휠 튐 의심', 2400);
+      const L = $('mLast'); L.className = 'mlast bad'; L.innerHTML = '휠 역방향 튐<small>한쪽으로 굴리는 중에 반대 방향 신호가 끼어들었어요</small>';
+      mFlash(true);
+    }
+  }
+  mUI();
+}
+/* 폴링레이트 — 마우스가 보내는 움직임 신호의 간격 */
+function pollEv(e){
+  if (e.pointerType && e.pointerType !== 'mouse') return;
+  const a = MS.poll.ts;
+  a.push(e.timeStamp);
+  if (a.length > 400) a.splice(0, a.length - 400);
+}
+const HZS = [125, 250, 500, 1000, 2000, 4000, 8000];
+function pollCalc(){
+  const P = MS.poll, a = P.ts;
+  if (!P.can) return;
+  if (!a.length || perf() - a[a.length - 1] > 400) { if (P.hz) { P.hz = 0; pollUI(); } return; }
+  const iv = [];
+  for (let i = a.length - 1; i > 0 && iv.length < 120; i--) {
+    const d = a[i] - a[i - 1];
+    if (d > 0.05 && d < 20) iv.push(d);
+  }
+  if (iv.length < 24) return;
+  iv.sort((x, y) => x - y);
+  const med = iv[iv.length >> 1];
+  const hz = 1000 / med;
+  /* 100Hz 아래면 마우스가 아니라 브라우저가 화면 주사율에 맞춰 묶어 보내는 것이다(실제 마우스는 125Hz 이상) */
+  if (hz < 100) { P.slow = true; P.hz = 0; pollUI(); return; }
+  P.slow = false; P.hz = hz;
+  if (P.hz > P.max) P.max = P.hz;
+  pollUI();
+}
+function hzLabel(v){
+  const near = HZS.reduce((b, x) => Math.abs(Math.log(x / v)) < Math.abs(Math.log(b / v)) ? x : b, HZS[0]);
+  return Math.abs(v / near - 1) < .22 ? near : Math.round(v);
+}
+function pollUI(){
+  const P = MS.poll;
+  if (!P.can) { $('pollHz').innerHTML = '?<small>Hz</small>'; $('pollHint').textContent = '이 브라우저는 잴 수 없음(크롬·엣지에서)'; return; }
+  $('pollHz').innerHTML = (P.hz ? hzLabel(P.hz) : '?') + '<small>Hz</small>';
+  $('pollHint').textContent = P.max ? '가장 높게 ' + hzLabel(P.max) + 'Hz · 움직이는 동안만 잽니다' :
+    P.slow ? '브라우저가 신호를 묶어 보내 잴 수 없음(크롬·엣지 최신판에서)' : '상자 안에서 원을 그리며 빠르게';
+  sumUI();
+}
+
+/* ── 클릭 속도(CPS) ── */
+const CPS = {run: false, n: 0, t0: 0, cool: 0, raf: 0, last: null};
+function cpsDown(e){
+  e.preventDefault();
+  if (e.pointerType === 'mouse' && e.button !== 0) return;
+  const t = perf();
+  if (!CPS.run) {
+    if (t < CPS.cool) return;
+    CPS.run = true; CPS.n = 1; CPS.t0 = t;
+    $('cpsPad').classList.add('run');
+    cpsTick();
+  } else CPS.n++;
+}
+function cpsTick(){
+  const el = (perf() - CPS.t0) / 1000, dur = S.cpsDur;
+  if (el >= dur) { cpsEnd(); return; }
+  $('cpsBig').textContent = CPS.n + '번';
+  $('cpsSub').textContent = '남은 시간 ' + (dur - el).toFixed(1) + '초 · 지금 ' + (CPS.n / Math.max(el, .25)).toFixed(1) + ' CPS';
+  CPS.raf = requestAnimationFrame(cpsTick);
+}
+function cpsEnd(){
+  CPS.run = false; CPS.cool = perf() + 900;
+  $('cpsPad').classList.remove('run');
+  const v = CPS.n / S.cpsDur;
+  CPS.last = {v: v, dur: S.cpsDur};
+  const best = +S.cpsBest[S.cpsDur] || 0;
+  const nb = v > best;
+  if (nb) { S.cpsBest[S.cpsDur] = +v.toFixed(2); save(); }
+  $('cpsBig').textContent = v.toFixed(1) + ' CPS';
+  $('cpsSub').textContent = S.cpsDur + '초에 ' + CPS.n + '번 · ' + (nb ? '새 최고 기록!' : '최고 ' + (+S.cpsBest[S.cpsDur]).toFixed(1) + ' CPS') + ' · 다시 누르면 새로 시작';
+  cpsBestUI(); sumUI();
+}
+function cpsBestUI(){
+  const b = +S.cpsBest[S.cpsDur];
+  $('cpsBest').textContent = b ? S.cpsDur + '초 최고 ' + b.toFixed(1) + ' CPS' : '';
+}
+
+/* 옆 단추(뒤로)가 페이지를 넘기지 않게 — 기본 동작을 막고, 그래도 넘어가면 한 번 되돌린다 */
+let guardOn = false;
+function mouseGuard(){
+  if (guardOn || IN_FRAME) return;
+  try { history.pushState({kt: 1}, '', location.href); guardOn = true; } catch (e) { /* 무시 */ }
+}
+window.addEventListener('popstate', () => {
+  if (!guardOn) return;
+  if (perf() - MS.sideT < 1500) {
+    try { history.pushState({kt: 1}, '', location.href); } catch (e) { /* 무시 */ }
+    toast('옆 단추(뒤로·앞으로)가 눌렸어요 — 테스트 중이라 페이지를 넘기지 않았습니다');
+  } else { guardOn = false; history.back(); }
+});
+
+/* ════════════════════════════════════════════════════════════
+   화면 — 색 화면(불량화소) · 주사율 · 터치
+   ════════════════════════════════════════════════════════════ */
+const COLORS = [
+  {n: '검정', c: '#000000', h: '밝게 빛나는 점(휘점)·가장자리 빛샘'},
+  {n: '흰색', c: '#ffffff', h: '검은 점(암점)·얼룩'},
+  {n: '빨강', c: '#ff0000', h: '빨강이 빠진 점'},
+  {n: '초록', c: '#00ff00', h: '초록이 빠진 점'},
+  {n: '파랑', c: '#0000ff', h: '파랑이 빠진 점'},
+  {n: '회색', c: '#808080', h: '얼룩·밝기 차이'},
+  {n: '하늘', c: '#00ffff', h: '색이 빠진 점'},
+  {n: '자홍', c: '#ff00ff', h: '색이 빠진 점'},
+  {n: '노랑', c: '#ffff00', h: '색이 빠진 점'},
+  {n: '계조', c: 'grad', h: '색이 계단처럼 끊기는 띠'}
+];
+const GRAD = 'linear-gradient(90deg,#000,#fff) 0 0/100% 25% no-repeat,linear-gradient(90deg,#000,#f00) 0 33.333%/100% 25% no-repeat,' +
+  'linear-gradient(90deg,#000,#0f0) 0 66.667%/100% 25% no-repeat,linear-gradient(90deg,#000,#00f) 0 100%/100% 25% no-repeat';
+const SC = {seen: {}, marks: [], hz: 0, hzRaw: 0, drops: 0, touch: null, full: false};
+const FS = {on: false, mode: '', idx: 0, lp: 0, lpX: 0, lpY: 0, lpDone: false, hintT: 0, xT: 0, curT: 0, fsReq: false};
+function swUI(){
+  $('scSw').innerHTML = COLORS.map((o, i) => '<button type="button" data-i="' + i + '" class="' + (SC.seen[i] ? 'seen' : '') + '" style="background:' +
+    (o.c === 'grad' ? 'linear-gradient(90deg,#000,#fff)' : o.c) + ';color:' + (i === 0 || i === 4 || i === 9 ? '#fff' : '#111') + '">' + o.n + '</button>').join('');
+  const n = Object.keys(SC.seen).length;
+  $('scSeen').textContent = n + '/' + COLORS.length + ' 봄';
+  marksUI();
+  sumUI();
+}
+function marksUI(){
+  $('scMarkRow').classList.toggle('hide', !SC.marks.length);
+  $('scMarks').innerHTML = SC.marks.map((m, i) => '<li><b>' + (i + 1) + '. 가로 ' + m.px + ' · 세로 ' + m.py + ' px</b><span>' + m.col + ' 화면에서</span></li>').join('');
+}
+function setTheme(c){ const m = $('themeColor'); if (m) m.setAttribute('content', c); }
+function fsOpen(mode, idx){
+  FS.on = true; FS.mode = mode; FS.idx = idx || 0;
+  const fs = $('fs');
+  fs.className = 'on ' + mode;
+  document.body.classList.add('fson');
+  fs.querySelectorAll('.mk').forEach(n => n.remove());
+  FS.fsReq = false;
+  const el = document.documentElement;
+  const rq = el.requestFullscreen || el.webkitRequestFullscreen;
+  if (rq) {
+    try {
+      const p = rq.call(el);
+      FS.fsReq = true;
+      if (p && p.catch) p.catch(() => { FS.fsReq = false; });
+    } catch (e) { FS.fsReq = false; }
+  }
+  if (mode === 'color') { SC.marks.forEach(drawMark); fsColor(); }
+  else touchStart();
+}
+function fsClose(){
+  if (!FS.on) return;
+  FS.on = false;
+  const fs = $('fs');
+  fs.className = '';
+  fs.style.background = '';
+  document.body.classList.remove('fson');
+  setTheme('#2f5bea');
+  if (document.fullscreenElement || document.webkitFullscreenElement) {
+    try { (document.exitFullscreen || document.webkitExitFullscreen).call(document); } catch (e) { /* 무시 */ }
+  }
+  if (FS.mode === 'color') {
+    swUI();
+    if (Object.keys(SC.seen).length === COLORS.length && !SC.full) {
+      SC.full = true;
+      DONE.show('색 화면 10가지를 모두 봤습니다',
+        SC.marks.length ? '이상한 점을 ' + SC.marks.length + '곳 표시해 두었어요. 좌표는 아래 「표시한 곳」에 남아 있습니다.' : '표시한 점이 없습니다. 눈에 띄는 불량화소가 없었다면 정상입니다.',
+        [SC.marks.length ? '그 자리를 <b>휴대폰 사진이나 동영상</b>으로 찍어 두고 구매처의 교환 기준을 확인하세요.' : '어두운 방에서 밝기를 최대로 하고 <b>검정·흰색</b>만 한 번 더 보면 더 확실합니다.',
+         '먼지와 헷갈리면 화면을 부드러운 천으로 닦은 뒤 다시 보세요. 닦아도 같은 자리에 남으면 불량화소입니다.',
+         '결과를 남기려면 <b>점검 결과 → 이미지 저장</b>을 누르세요.']);
+    }
+  } else touchEnd();
+}
+function fsColor(){
+  const o = COLORS[FS.idx], fs = $('fs');
+  SC.seen[FS.idx] = 1;
+  fs.style.background = o.c === 'grad' ? GRAD : o.c;
+  setTheme(o.c === 'grad' ? '#000000' : o.c);
+  const h = $('fsHint');
+  h.innerHTML = '<b>' + (FS.idx + 1) + ' / ' + COLORS.length + ' · ' + o.n + '</b>' + o.h + ' 찾기<br><span style="font-size:13px;opacity:.8">누르면 다음 · 길게 누르거나 오른쪽 클릭 = 점 표시 · Esc 끝내기</span>';
+  h.classList.remove('fade');
+  clearTimeout(FS.hintT); FS.hintT = setTimeout(() => h.classList.add('fade'), 1700);
+  fsShowX();
+}
+function fsShowX(){
+  const x = $('fsX');
+  x.classList.remove('fade'); $('fs').classList.remove('cur-off');
+  clearTimeout(FS.xT); FS.xT = setTimeout(() => { x.classList.add('fade'); if (FS.mode === 'color') $('fs').classList.add('cur-off'); }, 1800);
+}
+function fsNext(d){
+  const n = FS.idx + d;
+  if (n >= COLORS.length) { fsClose(); toast('10가지 색 화면을 모두 봤어요'); return; }
+  if (n < 0) return;
+  FS.idx = n; fsColor();
+}
+function fsKey(e){
+  if (FS.mode === 'touch') { if (e.key === 'Escape') { e.preventDefault(); fsClose(); } return; }
+  const k = e.key;
+  if (k === 'Escape') { e.preventDefault(); fsClose(); }
+  else if (k === 'ArrowRight' || k === ' ' || k === 'Enter' || k === 'PageDown' || k === 'ArrowDown') { e.preventDefault(); if (!e.repeat) fsNext(1); }
+  else if (k === 'ArrowLeft' || k === 'Backspace' || k === 'PageUp' || k === 'ArrowUp') { e.preventDefault(); if (!e.repeat) fsNext(-1); }
+}
+function addMark(x, y){
+  const dpr = window.devicePixelRatio || 1;
+  const m = {x: x / window.innerWidth, y: y / window.innerHeight, px: Math.round(x * dpr), py: Math.round(y * dpr), col: COLORS[FS.idx].n};
+  SC.marks.push(m);
+  drawMark(m);
+  toast((SC.marks.length) + '번째 점을 표시했어요 (가로 ' + m.px + ' · 세로 ' + m.py + ')', 2000);
+  if (navigator.vibrate) try { navigator.vibrate(30); } catch (e) { /* 무시 */ }
+}
+function drawMark(m){
+  const d = document.createElement('div');
+  d.className = 'mk';
+  d.style.left = (m.x * 100) + '%'; d.style.top = (m.y * 100) + '%';
+  $('fs').appendChild(d);
+}
+function fsPtrDown(e){
+  if (!FS.on || FS.mode !== 'color' || e.target.id === 'fsX') return;
+  if (e.button === 2) return;                     /* 오른쪽 클릭은 contextmenu 에서 */
+  FS.lpDone = false; FS.lpX = e.clientX; FS.lpY = e.clientY;
+  clearTimeout(FS.lp);
+  FS.lp = setTimeout(() => { FS.lpDone = true; addMark(FS.lpX, FS.lpY); }, 550);
+}
+function fsPtrMove(e){
+  if (!FS.on) return;
+  if (e.pointerType === 'mouse' && FS.mode === 'color') fsShowX();
+  if (FS.lp && (Math.abs(e.clientX - FS.lpX) > 12 || Math.abs(e.clientY - FS.lpY) > 12)) { clearTimeout(FS.lp); FS.lp = 0; }
+}
+function fsPtrUp(e){
+  if (!FS.on || FS.mode !== 'color' || e.target.id === 'fsX' || e.button === 2) return;
+  const was = FS.lp; clearTimeout(FS.lp); FS.lp = 0;
+  if (FS.lpDone) { FS.lpDone = false; return; }
+  if (was) fsNext(1);
+}
+
+/* 터치 테스트 — 화면을 칸으로 나눠 문지른 칸을 칠한다 */
+const TC = {cols: 0, rows: 0, cw: 0, ch: 0, got: null, n: 0, act: new Map(), max: 0, W: 0, H: 0, dpr: 1};
+function touchStart(){
+  const cv = $('fsCv'), W = window.innerWidth, H = window.innerHeight, dpr = Math.min(window.devicePixelRatio || 1, 2);
+  TC.W = W; TC.H = H; TC.dpr = dpr;
+  cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+  const cell = Math.max(34, Math.min(W, H) / 9);
+  TC.cols = Math.ceil(W / cell); TC.rows = Math.ceil(H / cell);
+  TC.cw = W / TC.cols; TC.ch = H / TC.rows;
+  TC.got = new Uint8Array(TC.cols * TC.rows); TC.n = 0; TC.act.clear(); TC.max = 0;
+  $('fsBar').classList.remove('bottom');
+  touchDraw(); touchBar();
+}
+function touchDraw(){
+  const cv = $('fsCv'), g = cv.getContext('2d'), d = TC.dpr;
+  g.setTransform(d, 0, 0, d, 0, 0);
+  g.fillStyle = '#0d1119'; g.fillRect(0, 0, TC.W, TC.H);
+  for (let r = 0; r < TC.rows; r++) for (let c = 0; c < TC.cols; c++) cellDraw(g, c, r);
+}
+function cellDraw(g, c, r){
+  const on = TC.got[r * TC.cols + c];
+  g.fillStyle = on ? '#22c55e' : '#0d1119';
+  g.fillRect(c * TC.cw, r * TC.ch, TC.cw, TC.ch);
+  g.strokeStyle = on ? '#15803d' : '#2a3347'; g.lineWidth = 1;
+  g.strokeRect(c * TC.cw + .5, r * TC.ch + .5, TC.cw - 1, TC.ch - 1);
+}
+function touchPaint(x, y){
+  const c = Math.floor(x / TC.cw), r = Math.floor(y / TC.ch);
+  if (c < 0 || r < 0 || c >= TC.cols || r >= TC.rows) return;
+  const i = r * TC.cols + c;
+  if (TC.got[i]) return;
+  TC.got[i] = 1; TC.n++;
+  cellDraw($('fsCv').getContext('2d'), c, r);
+}
+function touchLine(x0, y0, x1, y1){
+  const d = Math.hypot(x1 - x0, y1 - y0), st = Math.max(1, Math.ceil(d / (Math.min(TC.cw, TC.ch) / 3)));
+  for (let s = 0; s <= st; s++) touchPaint(x0 + (x1 - x0) * s / st, y0 + (y1 - y0) * s / st);
+}
+function touchBar(){
+  const tot = TC.cols * TC.rows, p = tot ? TC.n / tot * 100 : 0;
+  $('fsBarTx').textContent = (p >= 99.95 ? 100 : Math.floor(p)) + '% 칠함 · 동시 ' + TC.max + '손가락';
+  if (tot && TC.n === tot && !TC.all) { TC.all = true; toast('모든 칸을 칠했어요 — 터치가 안 되는 곳이 없습니다'); }
+}
+function tcDown(e){
+  if (!FS.on || FS.mode !== 'touch' || e.target !== $('fsCv')) return;
+  e.preventDefault();
+  TC.act.set(e.pointerId, {x: e.clientX, y: e.clientY});
+  TC.max = Math.max(TC.max, TC.act.size);
+  touchPaint(e.clientX, e.clientY); touchBar();
+}
+function tcMove(e){
+  if (!FS.on || FS.mode !== 'touch') return;
+  const p = TC.act.get(e.pointerId);
+  if (!p) return;
+  const list = e.getCoalescedEvents ? e.getCoalescedEvents() : [e];
+  let x0 = p.x, y0 = p.y;
+  (list.length ? list : [e]).forEach(q => { touchLine(x0, y0, q.clientX, q.clientY); x0 = q.clientX; y0 = q.clientY; });
+  p.x = x0; p.y = y0;
+  touchBar();
+}
+function tcUp(e){ if (TC.act.delete(e.pointerId)) touchBar(); }
+function touchEnd(){
+  const tot = TC.cols * TC.rows;
+  if (!tot) return;
+  SC.touch = {pct: TC.n / tot * 100, max: TC.max, miss: tot - TC.n};
+  $('tcRes').textContent = '최근: ' + Math.floor(SC.touch.pct) + '% 칠함 · 동시 ' + TC.max + '손가락';
+  sumUI();
+}
+
+/* 주사율 — requestAnimationFrame 간격의 중앙값 */
+const HZ_STD = [24, 30, 48, 50, 60, 72, 75, 85, 90, 100, 120, 144, 160, 165, 170, 175, 180, 200, 240, 280, 360, 480, 500, 540];
+const HZ = {run: false};
+function measureHz(){
+  if (HZ.run || document.hidden) return;
+  HZ.run = true;
+  $('hzBig').innerHTML = '재는 중…';
+  const d = [];
+  let last = 0, t0 = 0;
+  const f = t => {
+    if (!t0) t0 = t;
+    if (last) d.push(t - last);
+    last = t;
+    if (t - t0 < 1800 && !document.hidden) requestAnimationFrame(f);
+    else hzDone(d);
+  };
+  requestAnimationFrame(f);
+}
+function hzDone(d){
+  HZ.run = false;
+  const x = d.slice(8).filter(v => v > 0.5);
+  if (x.length < 20) { $('hzBig').innerHTML = '—<small>Hz</small>'; $('hzSub').textContent = '화면이 가려져 있어 잴 수 없었어요. 다시 재기를 누르세요.'; return; }
+  const s = x.slice().sort((a, b) => a - b), med = s[s.length >> 1], raw = 1000 / med;
+  const near = HZ_STD.reduce((b, v) => Math.abs(v - raw) < Math.abs(b - raw) ? v : b, HZ_STD[0]);
+  const hz = Math.abs(near - raw) / near < .03 ? near : Math.round(raw);
+  const drops = x.filter(v => v > med * 1.5).length;
+  SC.hz = hz; SC.hzRaw = raw; SC.drops = drops;
+  $('hzBig').innerHTML = hz + '<small>Hz</small>';
+  $('hzSub').innerHTML = '측정값 ' + raw.toFixed(1) + 'Hz · 1.8초 동안 ' + x.length + '번 그림' + (drops ? ' · <b>끊긴 프레임 ' + drops + '번</b>' : ' · 끊김 없음') +
+    (hz <= 61 ? '<br>60Hz 근처입니다. 고주사율 모니터라면 설정·케이블을 확인하세요.' : '');
+  sumUI();
+}
+const UFO = {raf: 0, t0: 0};
+function ufoLoop(t){
+  UFO.raf = 0;
+  if (S.tab !== 'screen' || document.hidden || !onScreen($('ufo'))) return;
+  const cv = $('ufo'), g = cv.getContext('2d');
+  const W = cv.width, H = cv.height, lanes = [240, 480, 960], sz = 34;
+  if (!UFO.t0) UFO.t0 = t;
+  const el = (t - UFO.t0) / 1000;
+  const scale = W / Math.max(1, cv.clientWidth);
+  g.fillStyle = '#10141d'; g.fillRect(0, 0, W, H);
+  lanes.forEach((v, i) => {
+    const y = 10 + i * (H - 20) / 3, lh = (H - 20) / 3;
+    g.fillStyle = 'rgba(255,255,255,.05)'; g.fillRect(0, y + 2, W, lh - 4);
+    const span = W + sz * scale;
+    const x = ((el * v * scale) % span) - sz * scale;
+    g.fillStyle = '#7ea0ff'; g.fillRect(x, y + (lh - sz * scale * .6) / 2, sz * scale, sz * scale * .6);
+    g.fillStyle = '#9aa6be'; g.font = 'bold ' + Math.round(12 * scale) + 'px sans-serif';
+    g.fillText(v + ' px/s', 8, y + lh / 2 + 4);
+  });
+  UFO.raf = requestAnimationFrame(ufoLoop);
+}
+function ufoKick(){ if (!UFO.raf) UFO.raf = requestAnimationFrame(ufoLoop); }
+
+/* ════════════════════════════════════════════════════════════
+   소리 — 좌우 확인음 · 훑기 · 마이크 · 카메라
+   ════════════════════════════════════════════════════════════ */
+let AC = null, master = null;
+function ac(){
+  if (!AC) {
+    const C = window.AudioContext || window.webkitAudioContext;
+    if (!C) return null;
+    AC = new C();
+    master = AC.createGain(); master.gain.value = volGain(); master.connect(AC.destination);
+  }
+  if (AC.state !== 'running') AC.resume().catch(() => {});
+  return AC;
+}
+function volGain(){ const v = S.vol / 100; return v * v * .9; }
+function panNode(a, pan){
+  if (a.createStereoPanner) { const p = a.createStereoPanner(); p.pan.value = pan; p.connect(master); return p; }
+  /* 옛 사파리 — 두 채널로 나눠 한쪽만 */
+  const g = a.createGain(), sp = a.createChannelMerger(2);
+  g.connect(sp, 0, 0); g.connect(sp, 0, 1);
+  if (pan < 0) { g.disconnect(); g.connect(sp, 0, 0); }
+  if (pan > 0) { g.disconnect(); g.connect(sp, 0, 1); }
+  sp.connect(master);
+  return g;
+}
+const SND = {L: null, R: null, played: {}, sweep: null, altT: 0};
+function chime(pan, t0){
+  const a = ac(); if (!a) { toast('이 브라우저는 소리를 낼 수 없어요'); return; }
+  const out = panNode(a, pan), t = t0 || a.currentTime + .03;
+  [[659.25, 0], [830.61, .14], [987.77, .28]].forEach(([f, dt]) => {
+    const o = a.createOscillator(), g = a.createGain();
+    o.type = 'sine'; o.frequency.value = f;
+    g.gain.setValueAtTime(0, t + dt); g.gain.linearRampToValueAtTime(.55, t + dt + .012); g.gain.exponentialRampToValueAtTime(.0008, t + dt + .55);
+    o.connect(g); g.connect(out); o.start(t + dt); o.stop(t + dt + .6);
+  });
+  return t;
+}
+function playSide(pan){
+  const t = chime(pan);
+  if (t == null) return;
+  const k = pan < 0 ? 'L' : pan > 0 ? 'R' : 'C';
+  SND.played[k] = 1;
+  const b = document.querySelector('.spk [data-pan="' + pan + '"]');
+  if (b) { b.classList.add('play1'); setTimeout(() => b.classList.remove('play1'), 700); }
+  $('spkNow').textContent = (k === 'L' ? '왼쪽' : k === 'R' ? '오른쪽' : '가운데') + ' 소리를 냈어요';
+  sumUI();
+}
+function playAlt(){
+  const a = ac(); if (!a) return;
+  clearTimeout(SND.altT);
+  let i = 0;
+  const step = () => { playSide(i % 2 ? 1 : -1); i++; if (i < 6) SND.altT = setTimeout(step, 750); };
+  step();
+}
+function sweep(){
+  if (SND.sweep) { stopSweep(); return; }
+  const a = ac(); if (!a) return;
+  const o = a.createOscillator(), g = a.createGain(), t = a.currentTime + .05, dur = 10;
+  o.type = 'sine';
+  o.frequency.setValueAtTime(40, t); o.frequency.exponentialRampToValueAtTime(16000, t + dur);
+  g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.3, t + .2); g.gain.setValueAtTime(.3, t + dur - .25); g.gain.linearRampToValueAtTime(0, t + dur);
+  o.connect(g); g.connect(master); o.start(t); o.stop(t + dur + .05);
+  SND.sweep = {o: o, t: t, dur: dur};
+  $('swpBtn').textContent = '■ 훑기 멈추기';
+  o.onended = () => { if (SND.sweep && SND.sweep.o === o) stopSweep(true); };
+  const tick = () => {
+    if (!SND.sweep || SND.sweep.o !== o) return;
+    const e = clamp((a.currentTime - t) / dur, 0, 1), f = 40 * Math.pow(16000 / 40, e);
+    $('spkNow').textContent = '지금 ' + (f >= 1000 ? (f / 1000).toFixed(1) + 'kHz' : Math.round(f) + 'Hz');
+    requestAnimationFrame(tick);
+  };
+  tick();
+}
+function stopSweep(ended){
+  if (!SND.sweep) return;
+  try { if (!ended) SND.sweep.o.stop(); } catch (e) { /* 무시 */ }
+  SND.sweep = null; SND.played.sw = 1;
+  $('swpBtn').textContent = '〰 저음 → 고음 훑기 (10초)';
+  $('spkNow').textContent = '';
+}
+
+/* 마이크 */
+const MIC = {on: false, stream: null, an: null, buf: null, raf: 0, db: -120, max: -120, pk: -120, pkT: 0, heard: false, rec: null, silentT: 0, used: false};
+function micSupported(){ return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia); }
+async function micStart(){
+  if (MIC.on) { micStop(); return; }
+  if (!micSupported()) { toast('이 브라우저는 마이크를 쓸 수 없어요. 크롬·사파리 최신판에서 열어 주세요.', 3600); return; }
+  if (IA.on && !IA.tried) { openBlock('inapp', 'mic'); return; }
+  const a = ac();
+  const dev = $('micSel').value;
+  const ns = $('micNs').checked;
+  try {
+    const st = await navigator.mediaDevices.getUserMedia({audio: {deviceId: dev ? {exact: dev} : undefined, echoCancellation: ns, noiseSuppression: ns, autoGainControl: ns}});
+    MIC.stream = st; MIC.on = true; MIC.used = true;
+    const src = a.createMediaStreamSource(st);
+    MIC.an = a.createAnalyser(); MIC.an.fftSize = 2048;
+    MIC.buf = new Float32Array(MIC.an.fftSize);
+    src.connect(MIC.an);
+    MIC.max = -120; MIC.heard = false; MIC.silentT = perf();
+    const tr = st.getAudioTracks()[0], set = tr && tr.getSettings ? tr.getSettings() : {};
+    $('micInfo').textContent = [set.sampleRate ? (set.sampleRate / 1000) + 'kHz' : '', set.channelCount ? set.channelCount + '채널' : ''].filter(Boolean).join(' · ');
+    await fillDevices('audioinput', 'micSel', tr && tr.label, set.deviceId);
+    $('micDevRow').classList.remove('hide');
+    $('micBtn').textContent = '■ 마이크 끄기'; $('micBtn').classList.add('stop');
+    $('micPill').className = 'pill run'; $('micPill').textContent = '듣는 중';
+    $('recBtn').disabled = false;
+    $('micMsg').innerHTML = '말해 보세요. 말할 때 막대가 <b>초록~노랑</b>까지 올라오면 알맞은 크기입니다.';
+    micLoop();
+  } catch (err) { mediaFail(err, 'mic'); }
+  sumUI();
+}
+function micStop(){
+  if (MIC.rec && MIC.rec.state === 'recording') try { MIC.rec.stop(); } catch (e) { /* 무시 */ }
+  if (MIC.stream) MIC.stream.getTracks().forEach(t => t.stop());
+  MIC.stream = null; MIC.on = false;
+  cancelAnimationFrame(MIC.raf); MIC.raf = 0;
+  $('micBtn').textContent = '🎤 마이크 켜기'; $('micBtn').classList.remove('stop');
+  $('micPill').className = 'pill idle'; $('micPill').textContent = '꺼짐';
+  $('recBtn').disabled = true;
+  $('micBar').style.width = '0'; $('micDb').innerHTML = '—<small>dB</small>';
+  sumUI();
+}
+function micLoop(){
+  if (!MIC.on) return;
+  MIC.an.getFloatTimeDomainData(MIC.buf);
+  let s = 0, pk = 0;
+  const b = MIC.buf;
+  for (let i = 0; i < b.length; i++) { const v = b[i]; s += v * v; const a = v < 0 ? -v : v; if (a > pk) pk = a; }
+  const rms = Math.sqrt(s / b.length), db = rms > 1e-6 ? 20 * Math.log10(rms) : -120, pdb = pk > 1e-6 ? 20 * Math.log10(pk) : -120;
+  MIC.db = db;
+  if (db > MIC.max) MIC.max = db;
+  const t = perf();
+  if (pdb > MIC.pk || t - MIC.pkT > 1500) { MIC.pk = pdb; MIC.pkT = t; }
+  if (db > -50) { MIC.heard = true; MIC.silentT = t; }
+  $('micBar').style.width = clamp((db + 60) / 60 * 100, 0, 100) + '%';
+  $('micPk').style.left = 'calc(' + clamp((MIC.pk + 60) / 60 * 100, 0, 100) + '% - 3px)';
+  $('micDb').innerHTML = (db <= -100 ? '—' : db.toFixed(0)) + '<small>dB</small>';
+  $('micMax').innerHTML = (MIC.max <= -100 ? '—' : MIC.max.toFixed(0)) + '<small>dB</small>';
+  if (pdb > -0.5) $('micMsg').innerHTML = '<b style="color:var(--danger)">소리가 너무 커서 찢어질 수 있어요.</b> 마이크를 입에서 조금 떼거나 입력 크기를 줄이세요.';
+  else if (!MIC.heard && t - MIC.silentT > 4000) $('micMsg').innerHTML = '<b style="color:var(--warn)">소리가 거의 안 들어와요.</b> 음소거 스위치, 윈도우 설정 → 개인 정보 → 마이크 허용, 위의 <b>마이크 고르기</b>에서 다른 장치를 확인하세요.';
+  waveDraw();
+  if ((MIC.frame = (MIC.frame || 0) + 1) % 20 === 0) sumUI();
+  MIC.raf = requestAnimationFrame(micLoop);
+}
+function waveDraw(){
+  const cv = $('micWave'), g = cv.getContext('2d'), W = cv.width, H = cv.height, b = MIC.buf;
+  g.clearRect(0, 0, W, H);
+  g.strokeStyle = getComputedStyle(document.body).getPropertyValue('--accent') || '#2f5bea';
+  g.lineWidth = 3; g.beginPath();
+  const step = b.length / W;
+  for (let x = 0; x < W; x++) { const v = b[Math.floor(x * step)] || 0, y = H / 2 - v * H * .9; if (x) g.lineTo(x, y); else g.moveTo(x, y); }
+  g.stroke();
+}
+function record(){
+  if (!MIC.on || !MIC.stream) return;
+  if (!window.MediaRecorder) { toast('이 브라우저는 녹음 기능이 없어요'); return; }
+  if (MIC.rec && MIC.rec.state === 'recording') return;
+  let r;
+  try { r = new MediaRecorder(MIC.stream); } catch (e) { toast('녹음을 시작하지 못했어요'); return; }
+  const chunks = [];
+  r.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
+  r.onstop = () => {
+    const blob = new Blob(chunks, {type: r.mimeType || 'audio/webm'});
+    const au = $('recAud');
+    if (au.src) try { URL.revokeObjectURL(au.src); } catch (e) { /* 무시 */ }
+    au.src = URL.createObjectURL(blob);
+    au.classList.remove('hide');
+    au.play().catch(() => {});
+    $('recBtn').textContent = '● 다시 5초 녹음하기';
+    $('recBtn').disabled = !MIC.on;
+    MIC.recDone = true; sumUI();
+  };
+  MIC.rec = r; r.start();
+  let left = 5;
+  $('recBtn').disabled = true; $('recBtn').textContent = '녹음 중… ' + left + '초';
+  const iv = setInterval(() => {
+    left--;
+    if (left <= 0 || r.state !== 'recording') { clearInterval(iv); if (r.state === 'recording') r.stop(); return; }
+    $('recBtn').textContent = '녹음 중… ' + left + '초';
+  }, 1000);
+}
+
+/* 카메라 */
+const CAM = {on: false, stream: null, w: 0, h: 0, fps: 0, cnt: 0, t0: 0, used: false};
+const RES = {max: [3840, 2160], '1080': [1920, 1080], '720': [1280, 720], '480': [640, 480]};
+async function camStart(){
+  if (CAM.on) { camStop(); return; }
+  if (!micSupported()) { toast('이 브라우저는 카메라를 쓸 수 없어요.', 3200); return; }
+  if (IA.on && !IA.tried) { openBlock('inapp', 'cam'); return; }
+  const r = RES[S.camRes], dev = $('camSel').value;
+  try {
+    const st = await navigator.mediaDevices.getUserMedia({video: {deviceId: dev ? {exact: dev} : undefined, width: {ideal: r[0]}, height: {ideal: r[1]}, frameRate: {ideal: 60}}, audio: false});
+    CAM.stream = st; CAM.on = true; CAM.used = true;
+    const v = $('camVid');
+    v.srcObject = st;
+    try { await v.play(); } catch (e) { /* 무시 */ }
+    $('camPh').classList.add('hide');
+    const tr = st.getVideoTracks()[0], set = tr && tr.getSettings ? tr.getSettings() : {};
+    await fillDevices('videoinput', 'camSel', tr && tr.label, set.deviceId);
+    $('camDevRow').classList.remove('hide');
+    $('camBtn').textContent = '■ 카메라 끄기'; $('camBtn').classList.add('stop');
+    $('camPill').className = 'pill run'; $('camPill').textContent = '켜짐';
+    CAM.cnt = 0; CAM.t0 = 0; CAM.fps = 0;
+    camFps();
+    setTimeout(camInfo, 400);
+  } catch (err) { mediaFail(err, 'cam'); }
+}
+function camStop(){
+  if (CAM.stream) CAM.stream.getTracks().forEach(t => t.stop());
+  CAM.stream = null; CAM.on = false;
+  const v = $('camVid'); v.srcObject = null;
+  $('camPh').classList.remove('hide');
+  $('camBtn').textContent = '📷 카메라 켜기'; $('camBtn').classList.remove('stop');
+  $('camPill').className = 'pill idle'; $('camPill').textContent = '꺼짐';
+  sumUI();
+}
+function camFps(){
+  const v = $('camVid');
+  if (!CAM.on) return;
+  const cb = (now, meta) => {
+    if (!CAM.on) return;
+    if (!CAM.t0) { CAM.t0 = now; CAM.f0 = meta && meta.presentedFrames; CAM.cnt = 0; }
+    CAM.cnt++;
+    if (now - CAM.t0 >= 1000) {
+      const fr = meta && CAM.f0 != null ? meta.presentedFrames - CAM.f0 : CAM.cnt;
+      CAM.fps = Math.round(fr * 1000 / (now - CAM.t0));
+      CAM.t0 = now; CAM.f0 = meta && meta.presentedFrames; CAM.cnt = 0;
+      camInfo();
+    }
+    v.requestVideoFrameCallback(cb);
+  };
+  if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(cb);
+  else {
+    let lt = -1;
+    const f = now => {
+      if (!CAM.on) return;
+      if (!CAM.t0) CAM.t0 = now;
+      if (v.currentTime !== lt) { lt = v.currentTime; CAM.cnt++; }
+      if (now - CAM.t0 >= 1000) { CAM.fps = Math.round(CAM.cnt * 1000 / (now - CAM.t0)); CAM.t0 = now; CAM.cnt = 0; camInfo(); }
+      requestAnimationFrame(f);
+    };
+    requestAnimationFrame(f);
+  }
+}
+function camInfo(){
+  if (!CAM.on) return;
+  const v = $('camVid');
+  CAM.w = v.videoWidth; CAM.h = v.videoHeight;
+  const mp = CAM.w * CAM.h / 1e6;
+  const nm = CAM.h >= 2100 ? '4K' : CAM.h >= 1400 ? 'QHD' : CAM.h >= 1060 ? 'FHD(1080p)' : CAM.h >= 700 ? 'HD(720p)' : CAM.h >= 460 ? 'SD(480p)' : '';
+  $('camInfo').innerHTML = '실제 해상도 <b>' + CAM.w + ' × ' + CAM.h + '</b>' + (nm ? ' (' + nm + ')' : '') + ' · 약 ' + mp.toFixed(1) + '백만 화소 · <b>' + (CAM.fps || '—') + ' fps</b>' +
+    (CAM.fps && CAM.fps < 20 ? '<br><b style="color:var(--warn)">fps 가 낮습니다.</b> 방이 어두우면 카메라가 노출을 늘리느라 fps 를 낮춥니다. 불을 켜 보세요.' : '');
+  sumUI();
+}
+async function fillDevices(kind, selId, label, curId){
+  if (!navigator.mediaDevices.enumerateDevices) return;
+  try {
+    const list = (await navigator.mediaDevices.enumerateDevices()).filter(d => d.kind === kind);
+    const sel = $(selId);
+    sel.innerHTML = list.map((d, i) => '<option value="' + esc(d.deviceId) + '">' + esc(d.label || (kind === 'audioinput' ? '마이크 ' : '카메라 ') + (i + 1)) + '</option>').join('');
+    if (curId) sel.value = curId;
+    else if (label) { const o = list.find(d => d.label === label); if (o) sel.value = o.deviceId; }
+  } catch (e) { /* 무시 */ }
+}
+function mediaFail(err, what){
+  const nm = err && err.name || '';
+  const w = what === 'mic' ? '마이크' : '카메라';
+  if (nm === 'NotAllowedError' || nm === 'SecurityError' || nm === 'PermissionDeniedError') {
+    if (IN_FRAME) { openBlock('frame', what); return; }
+    if (IA.on) { openBlock('inapp-failed', what); return; }
+    toast(w + ' 권한이 막혀 있어요. 주소창 왼쪽 자물쇠 → ' + w + ' 허용으로 바꾼 뒤 다시 눌러 주세요.', 4600);
+  } else if (nm === 'NotFoundError' || nm === 'DevicesNotFoundError' || nm === 'OverconstrainedError') {
+    toast('연결된 ' + w + '를 찾지 못했어요. 선이 꽂혀 있는지, 다른 ' + w + '를 골랐는지 확인하세요.', 4200);
+  } else if (nm === 'NotReadableError' || nm === 'TrackStartError') {
+    toast('다른 프로그램(화상 회의·녹화 프로그램 등)이 ' + w + '를 쓰고 있을 수 있어요. 그 프로그램을 끄고 다시 눌러 주세요.', 4600);
+  } else toast(w + '를 켜지 못했어요' + (nm ? ' (' + nm + ')' : '') + '.', 3600);
+}
+
+/* ════════════════════════════════════════════════════════════
+   점검 결과 — 옆 칸 요약 · 글 복사 · 이미지 저장
+   ════════════════════════════════════════════════════════════ */
+function envText(){
+  const os = /Windows/.test(UA) ? 'Windows' : IS_IOS ? (/iPad/.test(UA) || navigator.maxTouchPoints > 1 && /Mac/.test(UA) ? 'iPadOS' : 'iOS') : /Android/.test(UA) ? 'Android' : /Mac OS X/.test(UA) ? 'macOS' : /CrOS/.test(UA) ? 'ChromeOS' : /Linux/.test(UA) ? 'Linux' : '';
+  const br = /Edg\//.test(UA) ? 'Edge' : /Whale\//.test(UA) ? 'Whale' : /SamsungBrowser/.test(UA) ? 'Samsung Internet' : /NAVER\(inapp/.test(UA) ? '네이버 앱' : /KAKAOTALK/.test(UA) ? '카카오톡' :
+    /Firefox\//.test(UA) ? 'Firefox' : /CriOS|Chrome\//.test(UA) ? 'Chrome' : /Safari\//.test(UA) ? 'Safari' : '';
+  const dpr = window.devicePixelRatio || 1;
+  const sw = Math.round(screen.width * dpr), sh = Math.round(screen.height * dpr);
+  return [os, br].filter(Boolean).join(' · ') + ' · 화면 ' + sw + '×' + sh + (dpr !== 1 ? ' (배율 ' + (Math.round(dpr * 100) / 100) + ')' : '');
+}
+function sections(){
+  const out = [];
+  /* 키보드 */
+  const t = kbTotals(), badK = Object.keys(KB.chat).filter(c => KB.chat[c]);
+  const kUsed = t.cnt > 0;
+  out.push({id: 'kbd', ic: '⌨️', h: '키보드', st: !kUsed ? 'none' : badK.length ? 'bad' : t.cnt === t.tot ? 'ok' : 'run',
+    bd: !kUsed ? '아직' : badK.length ? '의심 ' + KB.chatN : t.cnt === t.tot ? '정상' : t.cnt + '/' + t.tot,
+    lines: kUsed ? [
+      ({full: '풀배열', tkl: '텐키리스', laptop: '노트북'})[S.layout] + ' ' + t.tot + '키 중 ' + t.cnt + '키 입력 확인',
+      '채터링 의심 ' + KB.chatN + '회' + (badK.length ? ' (' + badK.map(c => capName(c) + ' ' + KB.chat[c] + '회').join(', ') + ')' : '') + ' · 최대 동시 입력 ' + KB.max + '키'
+    ] : ['키를 눌러 보면 여기에 정리됩니다']});
+  /* 마우스 */
+  const got = MS.b.filter(s => s.n > 0).length, mchat = MS.b.reduce((a, s) => a + s.chat, 0);
+  const mUsed = MS.used || CPS.last;
+  const mb = MS.b.map((s, i) => s.n ? MBN[i].replace(/\(옆 단추\)/, '') : '').filter(Boolean);
+  out.push({id: 'mouse', ic: '🖱️', h: '마우스', st: !mUsed ? 'none' : mchat || MS.rev ? 'bad' : got >= 3 ? 'ok' : 'run',
+    bd: !mUsed ? '아직' : mchat || MS.rev ? '의심 ' + (mchat + MS.rev) : got >= 3 ? '정상' : '진행 중',
+    lines: mUsed ? [
+      (mb.length ? mb.join('·') + ' 단추 확인' : '단추 아직') + (MS.wU || MS.wD ? ' · 휠 위 ' + MS.wU + '·아래 ' + MS.wD : ''),
+      '두 번 눌림 의심 ' + mchat + '회 · 휠 역방향 튐 ' + MS.rev + '회' + (MS.poll.max ? ' · 폴링 약 ' + hzLabel(MS.poll.max) + 'Hz' : '') + (CPS.last ? ' · CPS ' + CPS.last.v.toFixed(1) + '(' + CPS.last.dur + '초)' : '')
+    ] : ['점선 상자 안에서 눌러 보면 정리됩니다']});
+  /* 화면 */
+  const seen = Object.keys(SC.seen).length;
+  const sUsed = seen || SC.hz || SC.touch;
+  const tbad = SC.touch && SC.touch.pct < 99.95;
+  out.push({id: 'screen', ic: '🖥️', h: '화면', st: !sUsed ? 'none' : SC.marks.length ? 'bad' : seen === COLORS.length ? 'ok' : 'run',
+    bd: !sUsed ? '아직' : SC.marks.length ? '점 ' + SC.marks.length + '곳' : seen === COLORS.length ? '확인' : '진행 중',
+    lines: sUsed ? [
+      '색 화면 ' + seen + '/' + COLORS.length + '가지 확인 · 표시한 점 ' + SC.marks.length + '곳' + (SC.marks.length ? ' (' + SC.marks.slice(0, 3).map(m => m.px + ',' + m.py).join(' / ') + ')' : ''),
+      (SC.hz ? '주사율 약 ' + SC.hz + 'Hz' : '주사율 —') + (SC.touch ? ' · 터치 ' + (SC.touch.pct >= 99.95 ? '모든 칸' : Math.floor(SC.touch.pct) + '%') + ' · 동시 ' + SC.touch.max + '손가락' : '') + (tbad ? ' (안 칠해진 칸 ' + SC.touch.miss + '개)' : '')
+    ] : ['색 화면·주사율·터치를 확인하면 정리됩니다']});
+  /* 소리 */
+  const spk = [SND.L === true ? '왼쪽 들림' : SND.L === false ? '왼쪽 안 들림' : '', SND.R === true ? '오른쪽 들림' : SND.R === false ? '오른쪽 안 들림' : ''].filter(Boolean);
+  const oUsed = spk.length || MIC.used || CAM.used || Object.keys(SND.played).length;
+  const obad = SND.L === false || SND.R === false || (MIC.used && !MIC.heard && MIC.max < -60);
+  out.push({id: 'sound', ic: '🎤', h: '소리·카메라', st: !oUsed ? 'none' : obad ? 'bad' : (spk.length === 2 || MIC.heard || CAM.w) ? 'ok' : 'run',
+    bd: !oUsed ? '아직' : obad ? '확인 필요' : (spk.length === 2 || MIC.heard || CAM.w) ? '정상' : '진행 중',
+    lines: oUsed ? [
+      '스피커 ' + (spk.length ? spk.join('·') : '확인 전') + ' · 마이크 ' + (MIC.used ? (MIC.max > -100 ? '가장 큰 소리 ' + MIC.max.toFixed(0) + 'dB' : '소리 없음') + (MIC.recDone ? '·녹음 재생' : '') : '확인 전'),
+      '카메라 ' + (CAM.w ? CAM.w + '×' + CAM.h + (CAM.fps ? ' · ' + CAM.fps + 'fps' : '') : '확인 전')
+    ] : ['스피커·마이크·카메라를 켜 보면 정리됩니다']});
+  return out;
+}
+let sumRaf = 0;
+function sumUI(){
+  if (sumRaf) return;
+  sumRaf = requestAnimationFrame(() => {
+    sumRaf = 0;
+    const cls = {ok: 'ok', bad: 'bad', run: 'run', none: ''};
+    $('sum').innerHTML = sections().map(s => '<li data-tab="' + s.id + '"' + (S.tab === s.id ? ' class="cur"' : '') + '><span class="ic">' + s.ic + '</span><span class="tx"><b>' + s.h + '</b>' +
+      s.lines.map(l => '<span>' + esc(l) + '</span>').join('') + '</span><span class="bd ' + cls[s.st] + '">' + s.bd + '</span></li>').join('');
+    $('pvWhen').textContent = stamp().slice(5);
+  });
+}
+function reportText(){
+  const L = ['[기기 점검 결과] ' + stamp(), '환경: ' + envText()];
+  sections().forEach(s => { if (s.st !== 'none') L.push('■ ' + s.h + ': ' + s.lines.join(' / ')); });
+  if (L.length === 2) L.push('(아직 확인한 항목이 없습니다)');
+  L.push('※ 브라우저에서 확인한 참고용 결과입니다.');
+  return L.join('\n');
+}
+function anyDone(){ return sections().some(s => s.st !== 'none'); }
+function copyText(text, done){
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(done, () => fallbackCopy(text, done)); return; }
+  } catch (e) { /* 아래로 */ }
+  fallbackCopy(text, done);
+}
+function fallbackCopy(text, done){
+  const t = document.createElement('textarea');
+  t.value = text; t.setAttribute('readonly', ''); t.style.cssText = 'position:fixed;left:-9999px;top:0';
+  document.body.appendChild(t); t.select(); t.setSelectionRange(0, text.length);
+  let ok = false;
+  try { ok = document.execCommand('copy'); } catch (e) { /* 무시 */ }
+  t.remove();
+  if (ok) done(); else toast('복사하지 못했어요. 브라우저가 막았을 수 있습니다.');
+}
+function copyReport(){
+  if (!anyDone()) { toast('아직 확인한 항목이 없어요. 키를 누르거나 테스트를 먼저 해 보세요.'); return; }
+  copyText(reportText(), () => {
+    toast('점검 결과를 복사했어요. 거래 글이나 메모에 붙여 넣으세요.');
+    doneReport(null);
+  });
+}
+function reportCanvas(){
+  const secs = sections(), W = 1000, P = 52;
+  const font = '"Malgun Gothic","Apple SD Gothic Neo","Noto Sans KR",sans-serif';
+  const c = document.createElement('canvas'), g = c.getContext('2d');
+  const wrap = (txt, size, max) => {
+    g.font = '600 ' + size + 'px ' + font;
+    const out = []; let line = '';
+    txt.split(' ').forEach(w => {
+      const tst = line ? line + ' ' + w : w;
+      if (g.measureText(tst).width > max && line) { out.push(line); line = w; } else line = tst;
+    });
+    if (line) out.push(line);
+    return out;
+  };
+  const blocks = secs.map(s => ({s: s, lines: [].concat(...s.lines.map(l => wrap(l, 24, W - P * 2)))}));
+  let H = 210;
+  blocks.forEach(b => { H += 70 + b.lines.length * 36 + 22; });
+  H += 90;
+  c.width = W; c.height = H;
+  g.fillStyle = '#f2f4f9'; g.fillRect(0, 0, W, H);
+  g.fillStyle = '#ffffff';
+  const rr = (x, y, w, h, r) => { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); };
+  rr(24, 24, W - 48, H - 48, 28); g.fill();
+  g.fillStyle = '#2f5bea'; rr(P, 58, 64, 64, 16); g.fill();
+  g.fillStyle = '#fff'; g.font = '800 34px ' + font; g.textAlign = 'center'; g.fillText('⌨', P + 32, 102);
+  g.textAlign = 'left';
+  g.fillStyle = '#131a2c'; g.font = '800 40px ' + font; g.fillText('기기 점검 결과', P + 84, 92);
+  g.fillStyle = '#5a6479'; g.font = '600 22px ' + font; g.fillText(stamp() + '  ·  ' + envText(), P + 84, 124);
+  let y = 170;
+  g.strokeStyle = '#dde3ee'; g.lineWidth = 2;
+  const col = {ok: ['#e2f4ec', '#0b7f57'], bad: ['#fdebe9', '#cf3128'], run: ['#e6ecff', '#2f5bea'], none: ['#f3f5fb', '#5a6479']};
+  blocks.forEach(b => {
+    g.beginPath(); g.moveTo(P, y); g.lineTo(W - P, y); g.stroke();
+    y += 50;
+    g.fillStyle = '#131a2c'; g.font = '800 30px ' + font; g.fillText(b.s.h, P, y);
+    const cc = col[b.s.st];
+    g.font = '800 22px ' + font;
+    const bw = g.measureText(b.s.bd).width + 32;
+    g.fillStyle = cc[0]; rr(W - P - bw, y - 30, bw, 40, 20); g.fill();
+    g.fillStyle = cc[1]; g.fillText(b.s.bd, W - P - bw + 16, y - 2);
+    y += 14;
+    g.fillStyle = b.s.st === 'none' ? '#8a93a6' : '#2b3347'; g.font = '600 24px ' + font;
+    b.lines.forEach(l => { y += 36; g.fillText(l, P, y); });
+    y += 30;
+  });
+  g.beginPath(); g.moveTo(P, y); g.lineTo(W - P, y); g.stroke();
+  g.fillStyle = '#8a93a6'; g.font = '600 20px ' + font;
+  g.fillText('브라우저 입력 신호로 확인한 참고용 결과 · 키보드 테스트', P, y + 44);
+  return c;
+}
+/* 앱 안(WebView)은 blob: 내려받기를 못 한다 → data: 주소로. 그래도 안 되면 결과 카드의 이미지를 길게 눌러 저장 */
+function download(blob, name){
+  if (IA.on) {
+    const r = new FileReader();
+    r.onload = () => { const a = document.createElement('a'); a.href = r.result; a.download = name; document.body.appendChild(a); a.click(); a.remove(); };
+    r.readAsDataURL(blob);
+    return;
+  }
+  const u = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = u; a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(u), 5000);
+}
+function saveReport(){
+  if (!anyDone()) { toast('아직 확인한 항목이 없어요. 키를 누르거나 테스트를 먼저 해 보세요.'); return; }
+  const c = reportCanvas();
+  const d = new Date();
+  const name = '기기점검결과_' + d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate()) + '_' + pad(d.getHours()) + pad(d.getMinutes()) + '.png';
+  c.toBlob(b => {
+    if (!b) { toast('이미지를 만들지 못했어요'); return; }
+    download(b, name);
+    toast(IA.on ? '저장을 시도했어요. 안 되면 아래 이미지를 길게 눌러 저장하세요.' : '점검 결과 이미지를 저장했어요');
+    doneReport(c.toDataURL('image/png'));
+  }, 'image/png');
+}
+function doneReport(img){
+  const secs = sections().filter(s => s.st !== 'none');
+  const bad = secs.filter(s => s.st === 'bad');
+  DONE.show(img ? '점검 결과를 저장했습니다' : '점검 결과를 복사했습니다',
+    secs.length + '가지 항목을 정리했어요' + (bad.length ? ' — ' + bad.map(s => s.h).join('·') + '에서 확인이 필요한 결과가 있습니다.' : '. 이상 신호는 없었습니다.'),
+    [img ? '저장한 이미지를 거래 글이나 A/S 문의에 올리면 됩니다.' : '거래 글·메신저·메모장에 <b>붙여넣기</b> 하세요.',
+     bad.length ? '빨간 표시가 난 항목은 같은 테스트를 <b>한 번 더</b> 해 보고, 계속 나오면 구매처·제조사에 문의하세요.' : '확인하지 않은 탭이 있다면 마저 해 보고 다시 저장하면 결과가 늘어납니다.',
+     '결과는 브라우저가 받은 신호로 판단한 <b>참고용</b>입니다.'], img);
+}
+
+/* ── 앱 안(WebView) ────────────────────────────────────── */
+const IA = {
+  naver: /NAVER\(inapp/i.test(UA),
+  kakao: /KAKAOTALK/i.test(UA),
+  line: /\bLine\//i.test(UA),
+  ios: IS_IOS,
+  android: /Android/i.test(UA)
+};
+IA.on = IA.naver || IA.kakao || IA.line ||
+  /Instagram|FBAN|FBAV|FB_IAB|DaumApps|everytimeApp|band\/|KAKAOSTORY/i.test(UA) ||
+  (IA.android && /;\s*wv\)/i.test(UA));   /* 안드로이드 WebView 표시 */
+/* 크롬을 콕 집어 여는 것은 intent:// 뿐 — 카카오톡·라인은 앱이 정한 기본 브라우저가 열린다 */
+IA.chrome = IA.android && !IA.kakao && !IA.line;
+IA.copyOnly = IA.ios && !IA.kakao && !IA.line;   /* 아이폰(카카오·라인 제외)은 주소 복사로 */
+IA.app = IA.naver ? (/NAVER\(inapp;\s*blog/i.test(UA) ? '네이버 블로그 앱' : '네이버 앱') : IA.kakao ? '카카오톡' : IA.line ? '라인' : '앱';
+IA.label = IA.copyOnly ? '주소 복사' : IA.chrome ? '크롬에서 열기' : '다른 브라우저로 열기';
+function externalUrl(){
+  const url = location.href;
+  if (IA.kakao) return 'kakaotalk://web/openExternal?url=' + encodeURIComponent(url);
+  if (IA.line) return url + (url.indexOf('?') >= 0 ? '&' : '?') + 'openExternalBrowser=1';
+  if (IA.android) return 'intent://' + url.replace(/^https?:\/\//i, '') +
+    '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' + encodeURIComponent(url) + ';end';
+  return '';          /* 아이폰은 사파리를 강제로 열 수 없다 */
+}
+function goOut(){
+  if (BLOCK.kind === 'frame' || (!IA.on && IN_FRAME)) { window.open(location.href.split('#')[0] + '#sound', '_blank', 'noopener'); lockInApp(false); return; }
+  const u = externalUrl();
+  if (u) { location.href = u; return; }
+  copyText(location.href, () => { if (document.body.classList.contains('ia-lock')) iaCopied(); else toast('주소를 복사했습니다. 사파리를 열고 붙여 넣거나, 화면의 메뉴에서 「다른 브라우저로 열기」를 누르세요.', 4200); });
+}
+function initInApp(){
+  if (!IA.on) return;
+  let hidden = false;
+  try { hidden = sessionStorage.getItem('keyboard_test.iahide') === '1'; } catch (e) { /* 무시 */ }
+  if (!hidden) document.body.classList.add('inapp');
+  $('iaMsg').textContent = IA.app + ' 안에서는 마이크·카메라가 막힐 수 있어요.';
+  $('iaSub').textContent = '키보드·마우스·화면 테스트는 여기서도 됩니다. 마이크·카메라·전체 화면은 ' + (IA.copyOnly ? '주소를 복사해 사파리에서' : '브라우저에서') + ' 열어 주세요.';
+  $('iaGo').textContent = IA.label;
+}
+/* 막는 창 — kind: 'inapp'(켜기 전) · 'inapp-failed'(켜 봤는데 실패) · 'frame'(글 안 iframe) */
+const BLOCK = {kind: '', what: ''};
+function openBlock(kind, what){
+  BLOCK.kind = kind; BLOCK.what = what;
+  const w = what === 'cam' ? '카메라' : '마이크';
+  const steps = IA.copyOnly
+    ? ['아래 <b>주소 복사</b>를 누르세요.', '화면의 <b>메뉴</b>에서 「다른 브라우저로 열기」를 누르거나, <b>사파리</b> 주소창에 붙여 넣으세요.']
+    : IA.chrome
+      ? ['아래 <b>크롬에서 열기</b>를 누르세요.', '크롬이 없으면 화면의 <b>메뉴</b>에서 「다른 브라우저로 열기」를 누르세요.']
+      : ['아래 <b>다른 브라우저로 열기</b>를 누르세요.', '열리지 않으면 화면의 <b>메뉴</b>에서 「다른 브라우저로 열기」를 누르세요.'];
+  $('iaIc').textContent = what === 'cam' ? '📷' : '🎤';
+  if (kind === 'frame') {
+    $('iaIc').textContent = '🔗';
+    $('iaTitle').textContent = '블로그 글 안에서는 ' + w + '를 쓸 수 없습니다';
+    $('iaDesc').innerHTML = '이 화면은 <b>글 안에 끼워 넣은 도구</b>라 ' + w + '가 막혀 있습니다. <b>새 창</b>으로 열면 바로 쓸 수 있어요. 키보드·마우스·화면 테스트는 여기서도 됩니다.';
+    $('iaSteps').innerHTML = ['아래 <b>새 창에서 열기</b>를 누르세요.', '새 창의 <b>소리·카메라</b> 탭에서 ' + w + ' 켜기를 누르고 허용하세요.'].map(t => '<li>' + t + '</li>').join('');
+    $('iaGo2').textContent = '새 창에서 열기';
+    $('iaStay').textContent = '닫기';
+  } else {
+    $('iaTitle').textContent = kind === 'inapp-failed' ? IA.app + ' 안에서 ' + w + '가 막혔습니다' : '앱 안에서는 ' + w + '가 막힐 수 있습니다';
+    $('iaDesc').innerHTML = kind === 'inapp-failed'
+      ? '<b>' + IA.app + '</b> 안 화면이 ' + w + '를 넘겨주지 않았습니다. <b>브라우저로 옮기면</b> 허용 창이 뜨고 바로 쓸 수 있어요.'
+      : '<b>' + IA.app + '</b> 안에서 열렸습니다. 앱 안 화면은 <b>' + w + ' 권한을 막아 두는 경우가 많아</b> 켜지지 않을 수 있습니다. 키보드·마우스·화면 테스트는 여기서도 그대로 됩니다.';
+    $('iaSteps').innerHTML = steps.map(t => '<li>' + t + '</li>').join('');
+    $('iaGo2').textContent = IA.on ? IA.label : '다른 브라우저로 열기';
+    $('iaStay').textContent = kind === 'inapp-failed' ? '닫기' : '여기서 그냥 해 볼게요';
+  }
+  lockInApp(true);
+}
+function lockInApp(on){
+  document.body.classList.toggle('ia-lock', on);
+  const w = document.querySelector('.wrap');
+  if (on) w.setAttribute('inert', ''); else w.removeAttribute('inert');
+}
+function iaCopied(){
+  $('iaDesc').innerHTML = '주소를 <b>복사했습니다.</b> 이제 <b>사파리</b>를 열고 주소창에 붙여 넣으세요.';
+  $('iaSteps').innerHTML = '<li>홈 화면에서 <b>사파리</b>를 엽니다.</li><li>주소창을 길게 눌러 <b>붙여넣기</b> 하세요.</li><li>또는 이 화면의 <b>메뉴</b> → 「다른 브라우저로 열기」.</li>';
+}
+
+/* ════════════════════════════════════════════════════════════
+   결과 카드 — 키보드 전 키 확인·색 화면 10가지 완주·점검 결과 저장/복사 때 펼친다
+     · 창으로 덮지 않고 옆 칸(휴대폰은 본문) 흐름 안에 카드로 펼친다
+     · PC 에서는 옆 칸만 굴리고 창은 굴리지 않는다 — 자판 그림이 밀려나면 키 받기가 멈춘다
+   ════════════════════════════════════════════════════════════ */
+const DONE = {
+  show(title, msg, steps, img){
+    $('doneTitle').textContent = title;
+    $('doneMsg').textContent = msg;
+    $('doneSteps').innerHTML = steps.map(t => '<li>' + t + '</li>').join('');
+    $('doneImg').classList.toggle('hide', !img);
+    $('doneImgNote').classList.toggle('hide', !img);
+    if (img) $('doneImg').src = img;
+    $('doneCard').classList.remove('hide');
+    clearTimeout(this.goT);
+    this.goT = setTimeout(() => {
+      const pc = window.matchMedia('(min-width:980px)').matches;
+      if (pc) {
+        const side = $('side'), card = $('doneCard');
+        side.scrollTo({top: Math.max(0, card.offsetTop - side.clientHeight / 2 + card.offsetHeight / 2), behavior: 'smooth'});
+      } else if (S.tab !== 'kbd' || img !== undefined) {
+        $('doneCard').scrollIntoView({behavior: 'smooth', block: 'center'});
+      }
+    }, 250);
+  },
+  hide(){ $('doneCard').classList.add('hide'); }
+};
+
+/* ── 탭 ─────────────────────────────────────────────────── */
+const TABS = {kbd: {p: 'pKbd', b: 'tabKbd', h: 'keyboard'}, mouse: {p: 'pMouse', b: 'tabMouse', h: 'mouse'}, screen: {p: 'pScreen', b: 'tabScreen', h: 'screen'}, sound: {p: 'pSound', b: 'tabSound', h: 'sound'}};
+function setTab(t, fromHash){
+  if (!TABS[t]) t = 'kbd';
+  const prev = S.tab;
+  S.tab = t; save();
+  Object.keys(TABS).forEach(k => {
+    const on = k === t;
+    $(TABS[k].p).classList.toggle('hide', !on);
+    $(TABS[k].b).classList.toggle('on', on);
+    $(TABS[k].b).setAttribute('aria-selected', on);
+  });
+  if (prev === 'sound' && t !== 'sound') { if (MIC.on) micStop(); if (CAM.on) camStop(); stopSweep(); }
+  if (t === 'kbd') { requestAnimationFrame(fitKb); focusKb(); }
+  if (t === 'mouse') mouseGuard();
+  if (t === 'screen') { swUI(); if (!SC.hz) setTimeout(measureHz, 300); ufoKick(); }
+  if (!fromHash) { try { history.replaceState(history.state, '', '#' + TABS[t].h); } catch (e) { /* 무시 */ } }
+  /* 아래로 내려가 있던 채 탭을 바꾸면 새 탭의 시험 상자가 화면 위로 벗어나 있다 → 탭 줄로 올려 준다 */
+  if (prev && prev !== t && $('tabs').getBoundingClientRect().top < 0) $('tabs').scrollIntoView({block: 'start'});
+  kbPill(); sumUI();
+}
+function focusKb(){
+  const ae = document.activeElement;
+  if (ae && ae !== document.body && !editable(ae)) ae.blur();
+  try { $('kbBox').focus({preventScroll: true}); } catch (e) { /* 무시 */ }
+}
+function tabFromHash(){
+  const h = (location.hash || '').replace('#', '');
+  return Object.keys(TABS).find(k => TABS[k].h === h) || '';
+}
+
+/* ── 시작 ──────────────────────────────────────────────── */
+function segOn(id, val){ document.querySelectorAll('#' + id + ' button').forEach(b => b.classList.toggle('on', b.dataset.v === String(val))); }
+function init(){
+  /* 탭 */
+  document.querySelectorAll('#tabs button').forEach(b => b.addEventListener('click', () => setTab(b.dataset.tab)));
+  $('sum').addEventListener('click', e => {
+    const li = e.target.closest('li'); if (!li) return;
+    setTab(li.dataset.tab);
+    if (!window.matchMedia('(min-width:980px)').matches) $('tabs').scrollIntoView({behavior: 'smooth', block: 'start'});
+  });
+  window.addEventListener('hashchange', () => { const t = tabFromHash(); if (t && t !== S.tab) setTab(t, true); });
+
+  /* 키보드 */
+  document.addEventListener('keydown', onKeyDown, true);
+  document.addEventListener('keyup', onKeyUp, true);
+  window.addEventListener('blur', () => { KB.focus = false; releaseAll(); kbPill(); });
+  window.addEventListener('focus', () => { KB.focus = true; kbPill(); });
+  document.addEventListener('focusin', () => kbPill());
+  document.addEventListener('focusout', () => setTimeout(kbPill, 0));
+  $('kb').addEventListener('click', e => {
+    const k = e.target.closest('.k');
+    if (KB.edit && k && !k.classList.contains('na')) {
+      const c = k.dataset.c, m = noMap();
+      if (m[c]) delete m[c]; else m[c] = 1;
+      save(); paintKey(c); kbStats();
+      return;
+    }
+    focusKb(); KB.focus = true; kbPill();
+  });
+  $('kbMsg').addEventListener('click', () => { focusKb(); KB.focus = document.hasFocus(); kbPill(); });
+  $('kbPill').addEventListener('click', () => { if (!KB.focus) { focusKb(); KB.focus = document.hasFocus(); kbPill(); } });
+  document.querySelectorAll('#laySeg button').forEach(b => b.addEventListener('click', () => {
+    S.layout = b.dataset.v; save(); segOn('laySeg', S.layout); KB.done = false; renderKb(); extraUI(); focusKb();
+  }));
+  document.querySelectorAll('#kthrSeg button').forEach(b => b.addEventListener('click', () => {
+    S.kthr = +b.dataset.v; save(); segOn('kthrSeg', S.kthr); toast('뗀 뒤 ' + S.kthr + 'ms 안에 다시 눌리면 채터링으로 셉니다'); focusKb();
+  }));
+  $('kReset').addEventListener('click', () => { kbReset(); focusKb(); toast('키보드 기록을 지웠어요'); });
+  $('kEdit').addEventListener('click', () => {
+    KB.edit = !KB.edit;
+    $('kb').classList.toggle('edit', KB.edit);
+    $('kEdit').classList.toggle('on', KB.edit);
+    $('kEdit').textContent = KB.edit ? '✓ 다 뺐어요(끝내기)' : '✂ 내 키보드에 없는 키 빼기';
+    if (KB.edit) toast('내 키보드에 없는 키(예: 오른쪽 Win·메뉴 키)를 자판 그림에서 눌러 빼세요. 다시 누르면 되돌립니다.', 4200);
+    focusKb();
+  });
+  $('kPause').addEventListener('click', () => {
+    KB.paused = !KB.paused;
+    $('kPause').textContent = KB.paused ? '▶ 키 받기 다시 시작' : '⏸ 키 받기 멈춤';
+    if (KB.paused) releaseAll(); else focusKb();
+    kbPill();
+  });
+  window.addEventListener('resize', () => fitKb(), {passive: true});
+
+  /* 마우스 */
+  const mp = $('mpad');
+  mp.addEventListener('mousedown', mDown);
+  mp.addEventListener('mouseup', mUp);
+  mp.addEventListener('contextmenu', e => e.preventDefault());
+  mp.addEventListener('auxclick', e => e.preventDefault());
+  mp.addEventListener('wheel', mWheel, {passive: false});
+  mp.addEventListener('touchstart', () => { MS.touchT = perf(); if (!MS.touchTold) { MS.touchTold = true; toast('터치 화면은 「화면」 탭의 터치 테스트에서 확인하세요'); } }, {passive: true});
+  mp.addEventListener('touchend', () => { MS.touchT = perf(); }, {passive: true});
+  mp.addEventListener('mouseenter', () => { mp.classList.add('hot'); $('mPill').className = 'pill run'; $('mPill').textContent = '마우스 받는 중'; });
+  mp.addEventListener('mouseleave', () => { mp.classList.remove('hot'); $('mPill').className = 'pill idle'; $('mPill').textContent = '점선 상자 안에서'; });
+  /* 옆 단추가 페이지를 뒤로 넘기지 않게 — 크롬·엣지는 mouseup 에서, 파이어폭스는 mousedown·auxclick 에서 막힌다 */
+  ['mousedown', 'mouseup', 'auxclick'].forEach(ev => document.addEventListener(ev, e => {
+    if (S.tab === 'mouse' && (e.button === 3 || e.button === 4)) { e.preventDefault(); MS.sideT = perf(); }
+  }, true));
+  if ('onpointerrawupdate' in window) mp.addEventListener('pointerrawupdate', pollEv);
+  else if (window.PointerEvent && PointerEvent.prototype.getCoalescedEvents) mp.addEventListener('pointermove', e => { e.getCoalescedEvents().forEach(pollEv); });
+  else MS.poll.can = false;
+  if (!('onpointerrawupdate' in window) && /Firefox|Safari/.test(UA) && !/Chrome|Edg/.test(UA)) MS.poll.can = false;
+  setInterval(() => { if (S.tab === 'mouse' && !document.hidden) pollCalc(); }, 250);
+  document.querySelectorAll('#mthrSeg button').forEach(b => b.addEventListener('click', () => { S.mthr = +b.dataset.v; save(); segOn('mthrSeg', S.mthr); }));
+  $('mReset').addEventListener('click', () => { mReset(); toast('마우스 기록을 지웠어요'); });
+  $('cpsPad').addEventListener('pointerdown', cpsDown);
+  $('cpsPad').addEventListener('contextmenu', e => e.preventDefault());
+  document.querySelectorAll('#cpsSeg button').forEach(b => b.addEventListener('click', () => {
+    if (CPS.run) return;
+    S.cpsDur = +b.dataset.v; save(); segOn('cpsSeg', S.cpsDur); cpsBestUI();
+    $('cpsBig').textContent = '클릭!'; $('cpsSub').textContent = S.cpsDur + '초 동안 누른 횟수를 잽니다 · 누르는 순간 시작';
+  }));
+
+  /* 화면 */
+  $('scStart').addEventListener('click', () => fsOpen('color', 0));
+  $('scSw').addEventListener('click', e => { const b = e.target.closest('button'); if (b) fsOpen('color', +b.dataset.i); });
+  $('scMarkClr').addEventListener('click', () => { SC.marks = []; marksUI(); sumUI(); });
+  $('hzBtn').addEventListener('click', measureHz);
+  $('tcStart').addEventListener('click', () => fsOpen('touch'));
+  const fs = $('fs');
+  fs.addEventListener('pointerdown', e => { if (FS.mode === 'touch') tcDown(e); else fsPtrDown(e); });
+  fs.addEventListener('pointermove', e => { if (FS.mode === 'touch') tcMove(e); else fsPtrMove(e); });
+  fs.addEventListener('pointerup', e => { if (FS.mode === 'touch') tcUp(e); else fsPtrUp(e); });
+  fs.addEventListener('pointercancel', e => { if (FS.mode === 'touch') tcUp(e); clearTimeout(FS.lp); FS.lp = 0; });
+  fs.addEventListener('contextmenu', e => { e.preventDefault(); if (FS.mode === 'color' && e.target.id !== 'fsX') { clearTimeout(FS.lp); FS.lp = 0; FS.lpDone = true; addMark(e.clientX, e.clientY); } });
+  $('fsX').addEventListener('click', e => { e.stopPropagation(); fsClose(); });
+  $('fsX').addEventListener('pointerdown', e => e.stopPropagation());
+  $('fsBarEnd').addEventListener('click', fsClose);
+  $('fsBarMv').addEventListener('click', () => $('fsBar').classList.toggle('bottom'));
+  ['fullscreenchange', 'webkitfullscreenchange'].forEach(ev => document.addEventListener(ev, () => {
+    if (!(document.fullscreenElement || document.webkitFullscreenElement) && FS.on && FS.fsReq) fsClose();
+  }));
+  window.addEventListener('resize', () => { if (FS.on && FS.mode === 'touch' && (Math.abs(window.innerWidth - TC.W) > 40 || Math.abs(window.innerHeight - TC.H) > 80)) { touchStart(); } });
+  const io = window.IntersectionObserver ? new IntersectionObserver(() => ufoKick()) : null;
+  if (io) io.observe($('ufo'));
+
+  /* 소리 */
+  $('vol').value = S.vol; $('volHint').textContent = S.vol + '%';
+  $('vol').addEventListener('input', e => { S.vol = +e.target.value; $('volHint').textContent = S.vol + '%'; save(); if (master) master.gain.setTargetAtTime(volGain(), AC.currentTime, .02); });
+  document.querySelectorAll('.spk [data-pan]').forEach(b => b.addEventListener('click', () => playSide(+b.dataset.pan)));
+  ['hL', 'hR'].forEach(id => document.querySelectorAll('#' + id + ' button').forEach(b => b.addEventListener('click', () => {
+    SND[id === 'hL' ? 'L' : 'R'] = b.dataset.v === '1'; segOn(id, b.dataset.v); sumUI();
+  })));
+  $('swpBtn').addEventListener('click', sweep);
+  $('altBtn').addEventListener('click', playAlt);
+  $('micBtn').addEventListener('click', micStart);
+  $('micSel').addEventListener('change', () => { if (MIC.on) { micStop(); micStart(); } });
+  $('micNs').checked = S.ns !== false;
+  $('micNs').addEventListener('change', () => { S.ns = $('micNs').checked; save(); if (MIC.on) { micStop(); micStart(); } });
+  $('recBtn').addEventListener('click', record);
+  $('camBtn').addEventListener('click', camStart);
+  $('camSel').addEventListener('change', () => { if (CAM.on) { camStop(); camStart(); } });
+  document.querySelectorAll('#camResSeg button').forEach(b => b.addEventListener('click', () => { S.camRes = b.dataset.v; save(); segOn('camResSeg', S.camRes); if (CAM.on) { camStop(); camStart(); } }));
+  $('camMir').checked = S.mirror !== false;
+  $('camVid').classList.toggle('mir', $('camMir').checked);
+  $('camMir').addEventListener('change', () => { S.mirror = $('camMir').checked; save(); $('camVid').classList.toggle('mir', S.mirror); });
+  document.addEventListener('visibilitychange', () => { if (document.hidden) { if (CAM.on) camStop(); stopSweep(); } else ufoKick(); });
+
+  /* 점검 결과 */
+  $('copyBtn').addEventListener('click', copyReport);
+  $('pngBtn').addEventListener('click', saveReport);
+  $('doneHide').addEventListener('click', () => DONE.hide());
+
+  /* 앱 안·iframe 창 */
+  $('iaGo').addEventListener('click', goOut);
+  $('iaGo2').addEventListener('click', goOut);
+  $('iaStay').addEventListener('click', () => {
+    const k = BLOCK.kind, w = BLOCK.what;
+    lockInApp(false);
+    if (k === 'inapp') { IA.tried = true; if (w === 'cam') camStart(); else micStart(); }
+  });
+  $('iaX').addEventListener('click', () => {
+    document.body.classList.remove('inapp');
+    try { sessionStorage.setItem('keyboard_test.iahide', '1'); } catch (e) { /* 무시 */ }
+  });
+
+  /* 저장된 설정을 화면에 */
+  segOn('laySeg', S.layout); segOn('kthrSeg', S.kthr); segOn('mthrSeg', S.mthr); segOn('cpsSeg', S.cpsDur); segOn('camResSeg', S.camRes);
+  cpsBestUI();
+  if (TOUCH_ONLY) $('kbTouchNote').classList.remove('hide');
+  renderKb(); comboUI(); logUI(); mReset(); swUI(); pollUI();
+  KB.focus = document.hasFocus();
+  initInApp();
+  /* 처음 탭 — 주소의 #(블로그 글의 바로가기), 없으면 키보드. 터치 전용 기기(휴대폰)는 화면 탭.
+     지난번 탭은 기억하지 않는다 — 「키보드 테스트」로 검색해 들어온 사람이 마우스 탭을 보게 되면 안 되므로 */
+  const first = tabFromHash() || (TOUCH_ONLY ? 'screen' : 'kbd');
+  setTab(first, !!tabFromHash());
+  sumUI();
+}
+init();
+window.__KT = {S, KB, MS, SC, SND, MIC, CAM, CPS, TC, FS, DONE, IA, LAYS, setTab, renderKb, kbTotals, sections, reportText, reportCanvas, measureHz, fsOpen, fsClose, fsNext, addMark, touchPaint, touchEnd, pollCalc, hzLabel, kbReset, mReset};
+</script>
+</body>
+</html>
